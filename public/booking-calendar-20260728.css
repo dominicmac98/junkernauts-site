@@ -1,0 +1,29 @@
+.quote-section,
+.booking-form {
+  overflow: visible;
+}
+
+.booking-form::after {
+  display: none;
+}
+
+.booking-step.is-active,
+.date-field.is-open {
+  z-index: 50;
+}
+
+.date-picker-menu {
+  max-height: none;
+}
+
+@media (max-width: 680px) {
+  .date-picker-menu {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .date-field.is-open {
+    z-index: auto;
+  }
+}
