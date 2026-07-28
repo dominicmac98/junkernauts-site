@@ -173,11 +173,11 @@ const hasMinimumLeadTime = (slotStart, now = Date.now()) => (
   slotStart.getTime() >= now + MIN_LEAD_TIME_MINUTES * 60 * 1000
 );
 
-const isSameWindow = (slot, busy) => {
+export const rangesOverlap = (slot, busy) => {
   const busyStart = new Date(busy.start);
   const busyEnd = new Date(busy.end);
 
-  return slot.start.getTime() === busyStart.getTime() && slot.end.getTime() === busyEnd.getTime();
+  return slot.start.getTime() < busyEnd.getTime() && slot.end.getTime() > busyStart.getTime();
 };
 
 const eventDate = (eventTime) => eventTime?.dateTime || (eventTime?.date ? `${eventTime.date}T00:00:00` : "");
@@ -221,7 +221,7 @@ export async function onRequestGet({ request, env }) {
     const windows = WINDOWS.map((window) => {
       const range = slotRange(date, window, timeZone);
       const tooSoon = !hasMinimumLeadTime(range.start, now);
-      const booked = busy.some((busyWindow) => isSameWindow(range, busyWindow));
+      const booked = busy.some((busyWindow) => rangesOverlap(range, busyWindow));
 
       return {
         window: window.label,

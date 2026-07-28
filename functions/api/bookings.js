@@ -218,11 +218,11 @@ const bookingEventId = () => {
   return `pmjr${Date.now().toString(16)}${suffix}`;
 };
 
-const isSameWindow = (slot, busy) => {
+export const rangesOverlap = (slot, busy) => {
   const busyStart = new Date(busy.start);
   const busyEnd = new Date(busy.end);
 
-  return slot.start.getTime() === busyStart.getTime() && slot.end.getTime() === busyEnd.getTime();
+  return slot.start.getTime() < busyEnd.getTime() && slot.end.getTime() > busyStart.getTime();
 };
 
 const eventDate = (eventTime) => eventTime?.dateTime || (eventTime?.date ? `${eventTime.date}T00:00:00` : "");
@@ -267,7 +267,7 @@ const isSlotBusy = async (env, date, slot, timeZone) => {
   const range = slotUtcRange(date, slot, timeZone);
   const busy = await activeEventBusyRanges(env, range, range, timeZone);
 
-  return busy.some((busyWindow) => isSameWindow(range, busyWindow));
+  return busy.some((busyWindow) => rangesOverlap(range, busyWindow));
 };
 
 const buildDescription = (booking) => [
