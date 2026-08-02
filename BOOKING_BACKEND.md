@@ -5,7 +5,7 @@ The site has two separate customer paths:
 - `/quote` sends a no-obligation estimate request to `/api/quotes`. It does not create a calendar event.
 - `/booking` uses the appointment flow below and creates a Google Calendar event after submission.
 
-Both forms send notifications to `info@puremittenjunkremoval.com` and `contact@puremittenjunkremoval.com` through Resend. The quote form only needs the Resend variables; it does not need Google Calendar credentials.
+Both forms send notifications to `info@getjunkernauts.com` and `contact@getjunkernauts.com` through Resend. The quote form only needs the Resend variables; it does not need Google Calendar credentials.
 
 The booking page uses two API routes:
 
@@ -45,19 +45,19 @@ The booking submit route will not create calendar events unless `GOOGLE_SERVICE_
 
 ## 3. Email notifications
 
-The Google Calendar event itself becomes the main booking record. Resend sends both quote and booking notification emails to `info@puremittenjunkremoval.com` and `contact@puremittenjunkremoval.com`.
+The Google Calendar event itself becomes the main booking record. Resend sends both quote and booking notification emails to `info@getjunkernauts.com` and `contact@getjunkernauts.com`.
 
 For email notifications with uploaded photos attached, add:
 
 ```text
 RESEND_API_KEY=your_resend_api_key
-BOOKING_NOTIFY_TO=info@puremittenjunkremoval.com,contact@puremittenjunkremoval.com
-BOOKING_FROM=Pure Mitten Junk Removal <contact@puremittenjunkremoval.com>
+BOOKING_NOTIFY_TO=info@getjunkernauts.com,contact@getjunkernauts.com
+BOOKING_FROM=Junkernauts Junk Removal <contact@getjunkernauts.com>
 ```
 
 The `BOOKING_FROM` domain needs to be verified in Resend.
 
-If `BOOKING_NOTIFY_TO` is not set, the function defaults to `info@puremittenjunkremoval.com,contact@puremittenjunkremoval.com`. Uploaded photo attachments require `RESEND_API_KEY`.
+If `BOOKING_NOTIFY_TO` is not set, the function defaults to `info@getjunkernauts.com,contact@getjunkernauts.com`. Uploaded photo attachments require `RESEND_API_KEY`.
 
 ## 4. Cloudflare Pages settings
 
@@ -90,8 +90,8 @@ The availability endpoint also checks the calendar's busy windows, so manually b
 After deployment, visit:
 
 ```text
-https://puremittenjunkremoval.com/api/booking-health
-https://puremittenjunkremoval.com/api/availability?date=2026-07-10
+https://getjunkernauts.com/api/booking-health
+https://getjunkernauts.com/api/availability?date=2026-07-10
 ```
 
 The health endpoint should show `calendarConfigured: true` and `emailConfigured: true` after the required Cloudflare production variables are saved and the site has redeployed.

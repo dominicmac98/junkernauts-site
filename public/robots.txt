@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://puremittenjunkremoval.com/sitemap.xml
+Sitemap: https://getjunkernauts.com/sitemap.xml

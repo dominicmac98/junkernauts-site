@@ -42,8 +42,8 @@ if (quoteForm) {
         contactMethod: quoteForm.elements.contact_method?.value || "call or text",
         createdAt: Date.now(),
       });
-      try { sessionStorage.setItem("pureMittenConfirmation", confirmation); } catch {}
-      try { localStorage.setItem("pureMittenConfirmation", confirmation); } catch {}
+      try { sessionStorage.setItem("junkernautsConfirmation", confirmation); } catch {}
+      try { localStorage.setItem("junkernautsConfirmation", confirmation); } catch {}
       window.location.href = "confirmation";
     } catch (error) {
       setStatus(error.message || "Something went wrong. Please call or text 734-480-8190.", "bad");

@@ -1,0 +1,73 @@
+/* Keep desktop header resizing out of document flow so Chrome does not
+   compensate the scroll position when the bar expands at the page top. */
+@media (min-width: 681px) {
+  body {
+    padding-top: 118px;
+  }
+
+  .site-nav {
+    position: fixed !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* The Junkernauts badge is taller than the previous wide logo. Keep its
+   natural proportions at every header size so it stays legible. */
+.brand-logo {
+  width: 152px !important;
+  height: 106px !important;
+}
+
+.site-nav.nav-compact .brand-logo {
+  width: 106px !important;
+  height: 74px !important;
+}
+
+@media (max-width: 680px) {
+  .brand-logo {
+    width: 88px !important;
+    height: 61px !important;
+  }
+
+  .site-nav.nav-compact .brand-logo {
+    width: 58px !important;
+    height: 40px !important;
+  }
+
+  .footer-inner,
+  .footer-inner > div,
+  .footer-links {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    padding-left: 0;
+  }
+
+  .footer-contact,
+  .footer-social,
+  .footer-reviews {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-logo {
+    width: 82px !important;
+    height: 57px !important;
+  }
+
+  .site-nav.nav-compact .brand-logo {
+    width: 49px !important;
+    height: 34px !important;
+  }
+}

@@ -1,8 +1,8 @@
 const MAX_ATTACHMENTS = 5;
 const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"]);
-const DEFAULT_NOTIFY_TO = "info@puremittenjunkremoval.com,contact@puremittenjunkremoval.com";
-const DEFAULT_FROM = "Pure Mitten Junk Removal <contact@puremittenjunkremoval.com>";
+const DEFAULT_NOTIFY_TO = "info@getjunkernauts.com,contact@getjunkernauts.com";
+const DEFAULT_FROM = "Junkernauts Junk Removal <contact@getjunkernauts.com>";
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status,

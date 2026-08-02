@@ -12,7 +12,7 @@ const setThemeToggleText = () => {
   themeToggle.innerHTML = `<span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span><span class="theme-toggle-symbol"></span></span><span class="theme-toggle-text">${label}</span>`;
 };
 
-const savedTheme = localStorage.getItem("pureMittenTheme");
+const savedTheme = localStorage.getItem("junkernautsTheme");
 if (savedTheme === "night") {
   document.body.classList.add("night-mode");
 }
@@ -20,7 +20,7 @@ setThemeToggleText();
 
 themeToggle?.addEventListener("click", () => {
   document.body.classList.toggle("night-mode");
-  localStorage.setItem("pureMittenTheme", document.body.classList.contains("night-mode") ? "night" : "day");
+  localStorage.setItem("junkernautsTheme", document.body.classList.contains("night-mode") ? "night" : "day");
   setThemeToggleText();
 });
 
@@ -569,7 +569,7 @@ if (bookingForm) {
       }
 
       const confirmationNumber = result.confirmationNumber || result.eventId || "sent";
-      sessionStorage.setItem("pureMittenBookingConfirmation", JSON.stringify({
+      sessionStorage.setItem("junkernautsBookingConfirmation", JSON.stringify({
         confirmationNumber,
         preferredDay: bookingForm.elements.preferred_day?.value || "",
         preferredWindow: bookingForm.elements.preferred_window?.value || "",

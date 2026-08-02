@@ -1,6 +1,6 @@
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_REVIEWS_API = "https://mybusiness.googleapis.com/v4";
-const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Pure+Mitten+Junk+Removal+LLC/@42.2068029,-83.405485,10z/data=!3m1!4b1!4m6!3m5!1s0x269dd473619aca25:0x666cf24569d9cf63!8m2!3d42.2068029!4d-83.405485!16s%2Fg%2F11nr10jbj7";
+const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Junkernauts+Junk+Removal/@42.2068029,-83.405485,10z/data=!3m1!4b1!4m6!3m5!1s0x269dd473619aca25:0x666cf24569d9cf63!8m2!3d42.2068029!4d-83.405485!16s%2Fg%2F11nr10jbj7";
 const CACHE_SECONDS = 300;
 const MAX_PAGES = 10;
 
@@ -72,7 +72,7 @@ const normalizeReview = (review) => {
     author: reviewer.displayName || "Google customer",
     authorPhoto: reviewer.profilePhotoUrl || "",
     rating,
-    comment: String(review.comment || "").trim() || `Rated Pure Mitten ${rating} out of 5 stars.`,
+    comment: String(review.comment || "").trim() || `Rated Junkernauts ${rating} out of 5 stars.`,
     createTime: review.createTime || review.updateTime || "",
     updateTime: review.updateTime || review.createTime || "",
     reviewUrl: GOOGLE_REVIEWS_URL,

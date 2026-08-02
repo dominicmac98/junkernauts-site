@@ -1,6 +1,6 @@
-# Pure Mitten Junk Removal Website
+# Junkernauts Junk Removal Website
 
-Static multi-page website for Pure Mitten Junk Removal, deployed on Cloudflare Pages with Pages Functions for booking APIs.
+Static multi-page website for Junkernauts Junk Removal, deployed on Cloudflare Pages with Pages Functions for booking APIs.
 
 ## Cloudflare Pages
 

@@ -15,7 +15,7 @@ const setThemeToggleText = () => {
   themeToggle.innerHTML = `<span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span><span class="theme-toggle-symbol"></span></span><span class="theme-toggle-text">${label}</span>`;
 };
 
-const savedTheme = localStorage.getItem("pureMittenTheme");
+const savedTheme = localStorage.getItem("junkernautsTheme");
 if (savedTheme === "night") {
   document.body.classList.add("night-mode");
 }
@@ -23,7 +23,7 @@ setThemeToggleText();
 
 themeToggle?.addEventListener("click", () => {
   document.body.classList.toggle("night-mode");
-  localStorage.setItem("pureMittenTheme", document.body.classList.contains("night-mode") ? "night" : "day");
+  localStorage.setItem("junkernautsTheme", document.body.classList.contains("night-mode") ? "night" : "day");
   setThemeToggleText();
 });
 
@@ -633,8 +633,8 @@ if (bookingForm) {
         preferredWindow: bookingForm.elements.preferred_window?.value || "",
         createdAt: Date.now(),
       });
-      try { sessionStorage.setItem("pureMittenConfirmation", confirmation); } catch {}
-      try { localStorage.setItem("pureMittenConfirmation", confirmation); } catch {}
+      try { sessionStorage.setItem("junkernautsConfirmation", confirmation); } catch {}
+      try { localStorage.setItem("junkernautsConfirmation", confirmation); } catch {}
       window.location.href = "confirmation";
     } catch (error) {
       setStatus(submitStatus, error.message || "Something went wrong sending the request. Please call or text 734-480-8190.", "bad");

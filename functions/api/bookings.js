@@ -24,8 +24,8 @@ const TIME_ZONE = "America/Detroit";
 const MIN_LEAD_TIME_MINUTES = 120;
 const MAX_ATTACHMENTS = 5;
 const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
-const DEFAULT_NOTIFY_TO = "info@puremittenjunkremoval.com,contact@puremittenjunkremoval.com";
-const DEFAULT_BOOKING_FROM = "Pure Mitten Junk Removal <contact@puremittenjunkremoval.com>";
+const DEFAULT_NOTIFY_TO = "info@getjunkernauts.com,contact@getjunkernauts.com";
+const DEFAULT_BOOKING_FROM = "Junkernauts Junk Removal <contact@getjunkernauts.com>";
 let tokenCache = null;
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
@@ -215,7 +215,7 @@ const bookingEventId = () => {
   crypto.getRandomValues(bytes);
   const suffix = Array.from(bytes).map((byte) => byte.toString(16).padStart(2, "0")).join("");
 
-  return `pmjr${Date.now().toString(16)}${suffix}`;
+  return `jnkr${Date.now().toString(16)}${suffix}`;
 };
 
 export const rangesOverlap = (slot, busy) => {
@@ -442,7 +442,7 @@ export async function onRequestPost({ request, env }) {
         end: { dateTime: range.end, timeZone },
         extendedProperties: {
           private: {
-            source: "pure-mitten-booking-form",
+            source: "junkernauts-booking-form",
             preferred_day: booking.preferred_day,
             preferred_window: booking.preferred_window,
             customer_phone: booking.phone,
