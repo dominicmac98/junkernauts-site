@@ -1,11 +1,11 @@
 {
-  "name": "pure-mitten-site",
+  "name": "junkernauts-site",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "wrangler pages dev public --compatibility-date=2026-07-03",
-    "deploy": "wrangler pages deploy public --project-name=pure-mitten-site"
+    "deploy": "wrangler pages deploy public --project-name=junkernauts-site"
   },
   "devDependencies": {
     "wrangler": "latest"

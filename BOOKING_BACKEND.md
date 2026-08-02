@@ -26,7 +26,7 @@ In Google Cloud Console:
 
 ## 2. Add Cloudflare Pages environment variables
 
-In Cloudflare Pages, open `pure-mitten-site` -> Settings -> Environment variables and add these production variables:
+In Cloudflare Pages, open `junkernauts-site` -> Settings -> Environment variables and add these production variables:
 
 ```text
 GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@project.iam.gserviceaccount.com
@@ -64,7 +64,7 @@ If `BOOKING_NOTIFY_TO` is not set, the function defaults to `info@puremittenjunk
 Use these settings if connecting the GitHub repo in the Cloudflare dashboard:
 
 ```text
-Project name: pure-mitten-site
+Project name: junkernauts-site
 Production branch: main
 Build command: npm install
 Build output directory: public

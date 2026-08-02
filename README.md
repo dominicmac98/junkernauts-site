@@ -4,7 +4,7 @@ Static multi-page website for Pure Mitten Junk Removal, deployed on Cloudflare P
 
 ## Cloudflare Pages
 
-Project name: `pure-mitten-site`
+Project name: `junkernauts-site`
 Production branch: `main`
 Build command: leave blank or use `npm install`
 Build output directory: `public`
