@@ -589,7 +589,7 @@ h1 span { color: #7dd3fc; }
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
   margin-top: 56px;
 }
