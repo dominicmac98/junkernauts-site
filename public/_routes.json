@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/*"],
+  "include": ["/api/*", "/comments/feed*"],
   "exclude": ["/assets/*", "/*.{css,js,html,txt,xml,ico,png,jpg,jpeg,svg,webp,avif}"]
 }
