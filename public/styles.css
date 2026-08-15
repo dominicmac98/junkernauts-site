@@ -1692,12 +1692,16 @@ section {
 
 .seo-photo {
   width: 100%;
-  aspect-ratio: 5 / 3;
+  height: clamp(260px, 38vw, 430px);
   object-fit: cover;
+  object-position: center;
   border-radius: 8px;
   border: 1px solid var(--line);
   margin-bottom: 28px;
 }
+
+.seo-photo.seo-photo-pool-table { object-position: center 58%; }
+.seo-photo.seo-photo-construction { object-position: center 67%; }
 
 .seo-main h2,
 .seo-side h3,
@@ -1727,7 +1731,7 @@ section {
 
 .photo-card { overflow: hidden; }
 .photo-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.photo-card img.real-job-photo { height: auto; aspect-ratio: auto; object-fit: contain; }
+.photo-card--feature { grid-column: 1 / -1; }
 .photo-card p { padding: 14px 16px 18px; margin: 0; font-weight: 800; color: var(--navy); }
 
 .nearby-card { padding: 28px; margin-top: 24px; }
