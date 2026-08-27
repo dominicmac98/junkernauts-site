@@ -35,6 +35,7 @@
 /confirmation.html /confirmation 301
 /quote-thanks.html /quote-thanks 301
 /services.html /services 301
+/service-areas.html /service-areas 301
 /thanks.html /thanks 301
-/quote-thanks /confirmation 302
-/thanks /confirmation 302
+/quote-thanks /confirmation 301
+/thanks /confirmation 301
