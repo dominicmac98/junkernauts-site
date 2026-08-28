@@ -958,22 +958,6 @@ section {
   text-align: center;
 }
 
-.brother-photo-placeholder {
-  width: 100%;
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  border-radius: 8px;
-  background: linear-gradient(145deg, #e7f4ff, #f8fbff);
-  border: 2px dashed rgba(0, 78, 140, 0.26);
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 22px;
-}
-
 .brother-photo {
   width: 100%;
   height: auto;
@@ -1651,12 +1635,6 @@ body.night-mode .field textarea {
 body.night-mode .field input::placeholder,
 body.night-mode .field textarea::placeholder {
   color: #7894aa;
-}
-
-body.night-mode .brother-photo-placeholder {
-  background: linear-gradient(145deg, #0c1d2f, #13263a);
-  border-color: rgba(125, 211, 252, 0.24);
-  color: #9db8ca;
 }
 
 body.night-mode .btn-primary,
