@@ -1,5 +1,13 @@
 {
   "version": 1,
-  "include": ["/api/*", "/comments/feed*"],
-  "exclude": ["/assets/*", "/*.{css,js,html,txt,xml,ico,png,jpg,jpeg,svg,webp,avif}"]
+  "include": [
+    "/api/*",
+    "/comments/feed*",
+    "/assets/photo-appliance-removal.png",
+    "/assets/photo-cleanouts.png",
+    "/assets/photo-debris-removal.png",
+    "/assets/photo-furniture-removal.png",
+    "/assets/photo-junk-removal.png"
+  ],
+  "exclude": ["/*.{css,js,html,txt,xml,ico,jpg,jpeg,svg,webp,avif}"]
 }
