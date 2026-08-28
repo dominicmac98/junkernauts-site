@@ -47,6 +47,39 @@ test("the Junkernauts repo contains no Pure Mitten branding", async () => {
   assert.deepEqual(matches, []);
 });
 
+test("generic service-area pages use branded placeholders instead of unrelated job photos", async () => {
+  const pages = [
+    "appliance-removal.html",
+    "estate-cleanouts.html",
+    "garage-cleanouts.html",
+    "junk-removal-canton-mi.html",
+    "junk-removal-dearborn-mi.html",
+    "junk-removal-detroit-mi.html",
+    "junk-removal-farmington-hills-mi.html",
+    "junk-removal-livonia-mi.html",
+    "junk-removal-monroe-mi.html",
+    "junk-removal-novi-mi.html",
+    "junk-removal-pontiac-mi.html",
+    "junk-removal-port-huron-mi.html",
+    "junk-removal-rochester-hills-mi.html",
+    "junk-removal-royal-oak-mi.html",
+    "junk-removal-saline-mi.html",
+    "junk-removal-southfield-mi.html",
+    "junk-removal-sterling-heights-mi.html",
+    "junk-removal-taylor-mi.html",
+    "junk-removal-troy-mi.html",
+    "junk-removal-warren-mi.html",
+    "junk-removal-westland-mi.html",
+    "junk-removal-ypsilanti-mi.html",
+  ];
+
+  for (const page of pages) {
+    const html = await readFile(path.join(publicDir, page), "utf8");
+    assert.match(html, /service-photo-placeholder/, page);
+    assert.doesNotMatch(html, /<div class="photo-grid">/, page);
+  }
+});
+
 test("every local HTML asset and page reference resolves", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
