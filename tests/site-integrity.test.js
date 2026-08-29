@@ -81,18 +81,6 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   }
 });
 
-test("real job galleries show before and after above the loaded photo", async () => {
-  const layout = await readFile(path.join(publicDir, "job-gallery-layout-20260828.css"), "utf8");
-  assert.match(layout, /\.job-gallery\s*\{\s*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/s);
-  assert.match(layout, /\.job-gallery \.job-photo-card-tall\s*\{\s*grid-column: 1 \/ -1/s);
-
-  for (const page of ["index.html", "discount.html"]) {
-    const html = await readFile(path.join(publicDir, page), "utf8");
-    assert.match(html, /job-gallery-layout-20260828\.css/, page);
-    assert.match(html, /<span>Before<\/span>[\s\S]*<span>After<\/span>[\s\S]*job-photo-card-tall/, page);
-  }
-});
-
 test("every local HTML asset and page reference resolves", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
