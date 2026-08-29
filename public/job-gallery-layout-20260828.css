@@ -1,0 +1,23 @@
+.job-gallery {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.job-gallery .job-photo-card-tall {
+  grid-column: 1 / -1;
+  min-height: 430px;
+}
+
+.job-gallery .job-photo-card-tall img {
+  object-position: center 56%;
+}
+
+@media (max-width: 680px) {
+  .job-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .job-gallery .job-photo-card-tall {
+    grid-column: auto;
+    min-height: 360px;
+  }
+}
