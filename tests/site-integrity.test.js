@@ -81,6 +81,26 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   }
 });
 
+test("real job pages lead with their before and after photos", async () => {
+  const pages = [
+    "basement-cleanouts.html",
+    "construction-debris-removal.html",
+    "junk-removal-ann-arbor-mi.html",
+  ];
+
+  for (const page of pages) {
+    const html = await readFile(path.join(publicDir, page), "utf8");
+    const introIndex = html.indexOf("job-comparison-intro");
+    const firstHeadingIndex = html.indexOf("<h2>");
+    const lowerPhotoIndex = html.lastIndexOf('class="seo-photo');
+
+    assert.match(html, /real-job-photo-order-20260828\.css/, page);
+    assert.ok(introIndex > 0 && introIndex < firstHeadingIndex, `${page} should show the comparison first`);
+    assert.ok(lowerPhotoIndex > firstHeadingIndex, `${page} should move the single photo below the page copy`);
+    assert.match(html.slice(introIndex, firstHeadingIndex), /Before:[\s\S]*After:/, page);
+  }
+});
+
 test("every local HTML asset and page reference resolves", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
