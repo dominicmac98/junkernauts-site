@@ -76,6 +76,7 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   for (const page of pages) {
     const html = await readFile(path.join(publicDir, page), "utf8");
     assert.match(html, /service-photo-placeholder/, page);
+    assert.match(html, /assets\/junkernauts-icon-512\.png/, page);
     assert.doesNotMatch(html, /<div class="photo-grid">/, page);
   }
 });
