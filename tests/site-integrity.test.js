@@ -99,6 +99,9 @@ test("real job pages lead with their before and after photos", async () => {
     assert.ok(lowerPhotoIndex > firstHeadingIndex, `${page} should move the single photo below the page copy`);
     assert.match(html.slice(introIndex, firstHeadingIndex), /Before:[\s\S]*After:/, page);
   }
+
+  const construction = await readFile(path.join(publicDir, "construction-debris-removal.html"), "utf8");
+  assert.match(construction, /photo-grid deck-demo-grid job-comparison-intro/);
 });
 
 test("every local HTML asset and page reference resolves", async () => {
