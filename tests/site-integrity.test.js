@@ -104,6 +104,20 @@ test("real job pages lead with their before and after photos", async () => {
   assert.match(construction, /photo-grid deck-demo-grid job-comparison-intro/);
 });
 
+test("every public page shows the daily business hours and structured hours", async () => {
+  const htmlFiles = (await collect(publicDir)).filter(
+    (filePath) => path.extname(filePath).toLowerCase() === ".html",
+  );
+
+  for (const htmlPath of htmlFiles) {
+    const html = await readFile(htmlPath, "utf8");
+    const page = path.basename(htmlPath);
+
+    assert.match(html, /<p class="footer-contact"><strong>Hours:<\/strong> 8 AM-6 PM, every day<\/p>/, page);
+    assert.match(html, /"openingHoursSpecification": \{[\s\S]*"dayOfWeek": \[[\s\S]*"Monday"[\s\S]*"Sunday"[\s\S]*"opens": "08:00"[\s\S]*"closes": "18:00"/, page);
+  }
+});
+
 test("every local HTML asset and page reference resolves", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
