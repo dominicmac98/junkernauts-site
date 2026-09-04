@@ -125,12 +125,40 @@ test("commercial junk removal is linked from the service hub and sitemap", async
   assert.match(commercial, /<title>Commercial Junk Removal \| Junkernauts Junk Removal<\/title>/);
   assert.match(commercial, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
   assert.match(commercial, /service-photo-placeholder/);
-  assert.match(services, /href="commercial-junk-removal">Commercial junk removal -&gt;<\/a>/);
+  assert.match(services, /href="commercial-junk-removal">Commercial Junk Removal -&gt;<\/a>/);
   assert.match(sitemap, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
 
   for (const htmlPath of htmlFiles) {
     const html = await readFile(htmlPath, "utf8");
     assert.match(html, /href="commercial-junk-removal">Commercial Junk Removal<\/a>/, path.basename(htmlPath));
+  }
+});
+
+test("service navigation mirrors the Google Business Profile services", async () => {
+  const htmlFiles = (await collect(publicDir)).filter(
+    (filePath) => path.extname(filePath).toLowerCase() === ".html",
+  );
+  const expectedLinks = [
+    ["furniture-removal", "Furniture Removal"],
+    ["appliance-removal", "Appliance Removal"],
+    ["garage-cleanouts", "Garage &amp; Basement Cleanouts"],
+    ["estate-cleanouts", "Estate &amp; Property Cleanouts"],
+    ["construction-debris-removal", "Construction Debris"],
+    ["commercial-junk-removal", "Commercial Junk Removal"],
+  ];
+
+  for (const htmlPath of htmlFiles) {
+    const html = await readFile(htmlPath, "utf8");
+    const page = path.basename(htmlPath);
+
+    for (const [href, label] of expectedLinks) {
+      assert.match(html, new RegExp(`href="${href}">${label}<\\/a>`), page);
+    }
+  }
+
+  const services = await readFile(path.join(publicDir, "services.html"), "utf8");
+  for (const [, label] of expectedLinks) {
+    assert.match(services, new RegExp(`<h3>${label}<\\/h3>`));
   }
 });
 
