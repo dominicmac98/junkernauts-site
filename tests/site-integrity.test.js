@@ -123,6 +123,23 @@ test("before-and-after photo grids reset markup dimensions for consistent crops"
   );
 });
 
+test("pages loading the shared service stylesheet use the photo-crop revision", async () => {
+  const htmlFiles = (await collect(publicDir)).filter(
+    (filePath) => path.extname(filePath).toLowerCase() === ".html",
+  );
+  const servicePages = [];
+
+  for (const htmlPath of htmlFiles) {
+    const html = await readFile(htmlPath, "utf8");
+    if (!html.includes("styles-20260611-passive-glow.css")) continue;
+
+    servicePages.push(path.basename(htmlPath));
+    assert.match(html, /href="styles-20260611-passive-glow\.css\?v=20260904-photo-crops"/);
+  }
+
+  assert.ok(servicePages.length > 0);
+});
+
 test("commercial junk removal is linked from the service hub and sitemap", async () => {
   const commercial = await readFile(path.join(publicDir, "commercial-junk-removal.html"), "utf8");
   const services = await readFile(path.join(publicDir, "services.html"), "utf8");
