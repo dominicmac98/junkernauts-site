@@ -113,7 +113,11 @@ test("every public page shows the daily business hours and structured hours", as
     const html = await readFile(htmlPath, "utf8");
     const page = path.basename(htmlPath);
 
-    assert.match(html, /<p class="footer-contact"><strong>Hours:<\/strong> 8 AM-6 PM, every day<\/p>/, page);
+    assert.match(
+      html,
+      /<p class="footer-contact"><strong>Hours:<\/strong><br \/>Monday: 8 AM - 6 PM<br \/>Tuesday: 8 AM - 6 PM<br \/>Wednesday: 8 AM - 6 PM<br \/>Thursday: 8 AM - 6 PM<br \/>Friday: 8 AM - 6 PM<br \/>Saturday: 8 AM - 6 PM<br \/>Sunday: 8 AM - 6 PM<\/p>/,
+      page,
+    );
     assert.match(html, /"openingHoursSpecification": \{[\s\S]*"dayOfWeek": \[[\s\S]*"Monday"[\s\S]*"Sunday"[\s\S]*"opens": "08:00"[\s\S]*"closes": "18:00"/, page);
   }
 });
