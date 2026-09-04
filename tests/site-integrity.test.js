@@ -104,6 +104,15 @@ test("real job pages lead with their before and after photos", async () => {
   assert.match(construction, /photo-grid deck-demo-grid job-comparison-intro/);
 });
 
+test("furniture removal includes a distinct curbside pickup before and after", async () => {
+  const html = await readFile(path.join(publicDir, "furniture-removal.html"), "utf8");
+
+  assert.match(html, /<h2>Recent Curbside Pickup<\/h2>/);
+  assert.match(html, /assets\/curbside-pickup-before\.jpg/);
+  assert.match(html, /assets\/curbside-pickup-after-private\.jpg/);
+  assert.doesNotMatch(html, /<h2>Recent Pool Table Removal<\/h2>/);
+});
+
 test("every public page shows the daily business hours and structured hours", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
