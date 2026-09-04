@@ -50,6 +50,7 @@ test("the Junkernauts repo contains no Pure Mitten branding", async () => {
 test("generic service-area pages use branded placeholders instead of unrelated job photos", async () => {
   const pages = [
     "appliance-removal.html",
+    "commercial-junk-removal.html",
     "estate-cleanouts.html",
     "garage-cleanouts.html",
     "junk-removal-canton-mi.html",
@@ -111,6 +112,26 @@ test("furniture removal includes a distinct curbside pickup before and after", a
   assert.match(html, /assets\/curbside-pickup-before\.jpg/);
   assert.match(html, /assets\/curbside-pickup-after-private\.jpg/);
   assert.doesNotMatch(html, /<h2>Recent Pool Table Removal<\/h2>/);
+});
+
+test("commercial junk removal is linked from the service hub and sitemap", async () => {
+  const commercial = await readFile(path.join(publicDir, "commercial-junk-removal.html"), "utf8");
+  const services = await readFile(path.join(publicDir, "services.html"), "utf8");
+  const sitemap = await readFile(path.join(publicDir, "sitemap.xml"), "utf8");
+  const htmlFiles = (await collect(publicDir)).filter(
+    (filePath) => path.extname(filePath).toLowerCase() === ".html",
+  );
+
+  assert.match(commercial, /<title>Commercial Junk Removal \| Junkernauts Junk Removal<\/title>/);
+  assert.match(commercial, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
+  assert.match(commercial, /service-photo-placeholder/);
+  assert.match(services, /href="commercial-junk-removal">Commercial junk removal -&gt;<\/a>/);
+  assert.match(sitemap, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
+
+  for (const htmlPath of htmlFiles) {
+    const html = await readFile(htmlPath, "utf8");
+    assert.match(html, /href="commercial-junk-removal">Commercial Junk Removal<\/a>/, path.basename(htmlPath));
+  }
 });
 
 test("every public page shows the daily business hours and structured hours", async () => {
