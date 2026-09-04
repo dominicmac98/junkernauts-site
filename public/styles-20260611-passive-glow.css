@@ -1350,7 +1350,13 @@ section {
 }
 
 .photo-card { overflow: hidden; }
-.photo-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.photo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
 .photo-card--feature { grid-column: 1 / -1; }
 .photo-card p { padding: 14px 16px 18px; margin: 0; font-weight: 800; color: var(--navy); }
 

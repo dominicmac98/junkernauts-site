@@ -114,6 +114,15 @@ test("furniture removal includes a distinct curbside pickup before and after", a
   assert.doesNotMatch(html, /<h2>Recent Pool Table Removal<\/h2>/);
 });
 
+test("before-and-after photo grids reset markup dimensions for consistent crops", async () => {
+  const styles = await readFile(path.join(publicDir, "styles-20260611-passive-glow.css"), "utf8");
+
+  assert.match(
+    styles,
+    /\.photo-card img \{[\s\S]*width: 100%;[\s\S]*height: auto;[\s\S]*aspect-ratio: 4 \/ 3;[\s\S]*object-fit: cover;[\s\S]*\}/,
+  );
+});
+
 test("commercial junk removal is linked from the service hub and sitemap", async () => {
   const commercial = await readFile(path.join(publicDir, "commercial-junk-removal.html"), "utf8");
   const services = await readFile(path.join(publicDir, "services.html"), "utf8");
