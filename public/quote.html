@@ -21,8 +21,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/junkernauts-jn-apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://clienthub.getjobber.com" />
+  <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin />
+  <link rel="preload" href="jobber-booking.js?v=20260907-quote" as="script" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles-20260709-booking.css" />
+  <link rel="stylesheet" href="styles-20260709-booking.css?v=20260907-fast2" />
   <link rel="stylesheet" href="nav-layer-fix-20260713.css" />
   <link rel="stylesheet" href="nav-smoothing-20260713.css" />
   <link rel="stylesheet" href="nav-stable-flow-20260802.css" />
@@ -168,50 +171,18 @@
         <a class="btn" href="booking">Schedule a Free On-Site Quote</a>
       </div>
       <div class="quote-layout">
-      <form class="quote-form free-quote-form reveal" data-quote-form enctype="multipart/form-data">
-        <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off" />
-        <div class="section-tag">No-Obligation Estimate</div>
-        <h2>Tell us what needs to go.</h2>
-        <p class="booking-step-sub">A few details and clear photos help us estimate the likely load size and provide a useful price range.</p>
-
-        <div class="form-grid">
-          <label class="field">
-            <span>Name</span>
-            <input type="text" name="name" autocomplete="name" required />
-          </label>
-          <label class="field">
-            <span>Phone Number</span>
-            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required />
-          </label>
-          <label class="field">
-            <span>City or ZIP Code</span>
-            <input type="text" name="location" autocomplete="postal-code" placeholder="Ypsilanti or 48197" required />
-          </label>
-          <label class="field">
-            <span>Preferred Contact Method</span>
-            <select name="contact_method" required>
-              <option value="">Choose call or text</option>
-              <option value="Text message">Text me</option>
-              <option value="Phone call">Call me</option>
-            </select>
-          </label>
+      <div class="quote-form free-quote-form jobber-booking-card">
+        <div class="jobber-booking-intro">
+          <div class="section-tag">No-Obligation Estimate</div>
+          <h2>Tell us what needs to go.</h2>
+          <p class="booking-step-sub">A few details and clear photos help us estimate the likely load size and provide a useful price range.</p>
         </div>
-
-        <label class="field">
-          <span>What Needs To Be Removed?</span>
-          <textarea name="items_to_remove" rows="6" placeholder="List the items, how much there is, where it is located, and anything heavy or hard to reach." required></textarea>
-        </label>
-
-        <label class="field photo-upload-field">
-          <span>Photos <small>Optional, but strongly encouraged</small></span>
-          <input type="file" name="attachment" accept="image/png, image/jpeg, image/webp, image/heic" multiple />
-          <em>Upload up to 5 photos so we can better estimate the load and labor.</em>
-        </label>
-
+        <p class="jobber-load-status" data-jobber-status role="status">Connecting to your estimate form...</p>
+        <div id="84193bef-02ad-49cd-93e2-4c8bfc7f103c-5115980" class="jobber-inline-work-request" data-jobber-form="quote" aria-busy="true"></div>
+        <p class="jobber-direct-link"><a data-jobber-direct href="https://clienthub.getjobber.com/hubs/84193bef-02ad-49cd-93e2-4c8bfc7f103c/public/requests/5115980/embedded_new" target="_blank" rel="noopener">Open estimate form in a new tab</a></p>
+        <script src="jobber-booking.js?v=20260907-quote"></script>
         <p class="no-obligation-note"><strong>No commitment required.</strong> Requesting an estimate does not schedule an appointment or approve any work or charge.</p>
-        <button class="btn btn-blue submit-btn quote-submit-btn" type="submit">Request My Fast Estimate</button>
-        <p class="booking-status" data-quote-status aria-live="polite"></p>
-      </form>
+      </div>
 
       <aside class="quote-side quote-choice-side reveal">
         <img class="about-logo" src="assets/junkernauts-logo.webp" alt="Junkernauts Junk Removal logo" />
@@ -247,7 +218,6 @@
       <span class="theme-toggle-text">Day Mode</span>
     </button>
   </footer>
-  <script src="script-20260713b-nav.js?v=20260907-fast2"></script>
-  <script src="script-20260716-quote-confirmation.js"></script>
+  <script src="script-20260713b-nav.js?v=20260907-quote"></script>
 </body>
 </html>
