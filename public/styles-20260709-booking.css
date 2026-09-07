@@ -1033,6 +1033,38 @@ section {
   min-height: 640px;
 }
 
+.jobber-booking-card {
+  min-height: 0;
+}
+
+.jobber-booking-intro {
+  margin-bottom: 24px;
+}
+
+.jobber-booking-intro h2 {
+  margin-bottom: 10px;
+}
+
+.jobber-inline-work-request {
+  width: 100%;
+  max-width: 760px;
+  min-height: 420px;
+  margin: 0 auto;
+}
+
+.jobber-inline-work-request iframe.jobber-work-request {
+  width: 100%;
+  max-width: 760px;
+  min-height: 920px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.legacy-booking-fields {
+  display: none;
+}
+
 .booking-progress {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
