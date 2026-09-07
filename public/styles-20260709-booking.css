@@ -1048,20 +1048,27 @@ section {
 .jobber-inline-work-request {
   width: 100%;
   max-width: 760px;
-  min-height: 420px;
   margin: 0 auto;
+  scroll-margin-top: 110px;
 }
 
 .jobber-inline-work-request iframe.jobber-work-request {
+  display: block;
   width: 100%;
   max-width: 760px;
-  min-height: 920px;
   border: 0;
   border-radius: 8px;
   background: #fff;
 }
 
-.legacy-booking-fields {
+.jobber-load-status,
+.jobber-direct-link {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.jobber-load-status[hidden] {
   display: none;
 }
 

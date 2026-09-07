@@ -21,8 +21,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/junkernauts-jn-apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://clienthub.getjobber.com" />
+  <link rel="preconnect" href="https://d3ey4dbjkt2f6s.cloudfront.net" crossorigin />
+  <link rel="preload" href="jobber-booking.js?v=20260907-fast2" as="script" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles-20260709-booking.css?v=20260907-jobber" />
+  <link rel="stylesheet" href="styles-20260709-booking.css?v=20260907-fast2" />
   <link rel="stylesheet" href="nav-layer-fix-20260713.css" />
   <link rel="stylesheet" href="nav-smoothing-20260713.css" />
   <link rel="stylesheet" href="nav-stable-flow-20260802.css" />
@@ -160,173 +163,16 @@
 
   <section class="quote-section">
     <div class="section-inner booking-layout">
-      <div class="quote-form booking-form reveal jobber-booking-card">
+      <div class="quote-form booking-form jobber-booking-card">
         <div class="jobber-booking-intro">
           <div class="section-tag">Free On-Site Quote</div>
           <h2>Choose a time for us to see the job.</h2>
           <p class="booking-step-sub">Tell us what you need removed, upload photos, and choose an available appointment time. We will review the request and confirm the visit.</p>
         </div>
-        <div id="84193bef-02ad-49cd-93e2-4c8bfc7f103c-5115979"></div>
-        <div class="legacy-booking-fields" aria-hidden="true" style="display: none;">
-        <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off" />
-
-        <ol class="booking-progress" aria-label="Booking steps">
-          <li class="is-active" data-progress-step="1"><span>1</span> Area</li>
-          <li data-progress-step="2"><span>2</span> Appointment</li>
-          <li data-progress-step="3"><span>3</span> Details</li>
-        </ol>
-
-        <div class="booking-step is-active" data-booking-step="1">
-          <div class="section-tag">Step 1</div>
-          <h2>Where should we meet you?</h2>
-          <p class="booking-step-sub">Enter the city first so we can show appointment availability for your on-site quote.</p>
-          <div class="form-grid">
-            <label class="field">
-              <span>City</span>
-              <input type="text" name="pickup_city" autocomplete="address-level2" placeholder="Ann Arbor, Ypsilanti, Canton..." required />
-            </label>
-            <label class="field">
-              <span>ZIP Code</span>
-              <input type="text" name="pickup_zip" inputmode="numeric" autocomplete="postal-code" placeholder="48197" />
-            </label>
-          </div>
-          <button class="btn btn-blue booking-next" type="button" data-next-step="2">Check Availability</button>
-        </div>
-
-        <div class="booking-step" data-booking-step="2">
-          <div class="section-tag">Step 2</div>
-          <h2>Choose a preferred appointment.</h2>
-          <p class="booking-step-sub">Pick the day and time frame that works best. We will email and/or text you to confirm the exact schedule.</p>
-          <div class="form-grid">
-            <label class="field date-field">
-              <span>Preferred Day</span>
-              <input type="text" name="preferred_day" data-booking-date required readonly pattern="\d{4}-\d{2}-\d{2}" placeholder="Choose a day" aria-haspopup="dialog" aria-expanded="false" />
-              <div class="date-picker-menu" data-date-picker-menu aria-label="Choose a preferred pickup day"></div>
-            </label>
-            <label class="field window-field">
-              <span>Preferred Time Frame</span>
-              <select class="native-window-select" name="preferred_window" data-booking-window required aria-hidden="true" tabindex="-1">
-                <option value="">Choose a window</option>
-                <option value="8 AM - 10 AM">8 AM - 10 AM</option>
-                <option value="8:30 AM - 10:30 AM">8:30 AM - 10:30 AM</option>
-                <option value="9 AM - 11 AM">9 AM - 11 AM</option>
-                <option value="9:30 AM - 11:30 AM">9:30 AM - 11:30 AM</option>
-                <option value="10 AM - 12 PM">10 AM - 12 PM</option>
-                <option value="10:30 AM - 12:30 PM">10:30 AM - 12:30 PM</option>
-                <option value="11 AM - 1 PM">11 AM - 1 PM</option>
-                <option value="11:30 AM - 1:30 PM">11:30 AM - 1:30 PM</option>
-                <option value="12 PM - 2 PM">12 PM - 2 PM</option>
-                <option value="12:30 PM - 2:30 PM">12:30 PM - 2:30 PM</option>
-                <option value="1 PM - 3 PM">1 PM - 3 PM</option>
-                <option value="1:30 PM - 3:30 PM">1:30 PM - 3:30 PM</option>
-                <option value="2 PM - 4 PM">2 PM - 4 PM</option>
-                <option value="2:30 PM - 4:30 PM">2:30 PM - 4:30 PM</option>
-                <option value="3 PM - 5 PM">3 PM - 5 PM</option>
-                <option value="3:30 PM - 5:30 PM">3:30 PM - 5:30 PM</option>
-                <option value="4 PM - 6 PM">4 PM - 6 PM</option>
-              </select>
-              <div class="window-picker" data-window-picker>
-                <button class="window-picker-button" type="button" data-window-picker-button aria-haspopup="listbox" aria-expanded="false">
-                  <span data-window-picker-text>Choose a window</span>
-                </button>
-                <div class="window-picker-menu" data-window-picker-menu role="listbox" aria-label="Preferred time frame"></div>
-              </div>
-            </label>
-          </div>
-          <p class="booking-note">We will review your preferred window and follow up to confirm the appointment before the pickup.</p>
-          <p class="booking-status" data-booking-status aria-live="polite"></p>
-          <div class="booking-actions">
-            <button class="btn btn-outline booking-back" type="button" data-prev-step="1">Back</button>
-            <button class="btn btn-blue booking-next" type="button" data-next-step="3">Continue</button>
-          </div>
-        </div>
-
-        <div class="booking-step" data-booking-step="3">
-          <div class="section-tag">Step 3</div>
-          <h2>On-site quote details.</h2>
-          <p class="booking-step-sub">Tell us who to contact, where to go, and what you may want removed if you approve the final price.</p>
-          <div class="form-grid">
-            <label class="field">
-              <span>Home or Business?</span>
-              <select name="location_type" required>
-                <option value="">Choose one</option>
-                <option>Home</option>
-                <option>Business</option>
-                <option>Rental property</option>
-                <option>Other</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Will you be there?</span>
-              <select name="customer_present" required>
-                <option value="">Choose one</option>
-                <option>Yes, I will be there</option>
-                <option>No, but items are accessible</option>
-                <option>Not sure yet</option>
-              </select>
-            </label>
-          </div>
-
-          <label class="field address-autocomplete-field">
-            <span>Pickup Address</span>
-            <input type="text" name="pickup_address" autocomplete="street-address" placeholder="Street address, apartment, unit, or gate details" data-address-input required />
-            <div class="address-suggestions" data-address-suggestions role="listbox" aria-label="Address suggestions"></div>
-          </label>
-
-          <div class="form-grid">
-            <label class="field">
-              <span>Name</span>
-              <input type="text" name="name" autocomplete="name" required />
-            </label>
-            <label class="field">
-              <span>Phone Number</span>
-              <input type="tel" name="phone" autocomplete="tel" required />
-            </label>
-            <label class="field">
-              <span>Email</span>
-              <input type="email" name="email" autocomplete="email" required />
-            </label>
-            <label class="field">
-              <span>Estimated Load Size</span>
-              <select name="estimated_load">
-                <option value="">Not sure yet</option>
-                <option>Minimum pickup</option>
-                <option>1/4 load</option>
-                <option>Half load</option>
-                <option>Full load</option>
-              </select>
-            </label>
-          </div>
-
-          <fieldset class="field challenge-field">
-            <legend>Anything we should know?</legend>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" name="job_notes[]" value="Heavy item" /> Heavy item</label>
-              <label><input type="checkbox" name="job_notes[]" value="Hard to reach" /> Hard to reach</label>
-              <label><input type="checkbox" name="job_notes[]" value="Upstairs or downstairs" /> Upstairs or downstairs</label>
-              <label><input type="checkbox" name="job_notes[]" value="Needs disassembly" /> Needs disassembly</label>
-              <label><input type="checkbox" name="job_notes[]" value="Curbside pickup" /> Curbside pickup</label>
-              <label><input type="checkbox" name="job_notes[]" value="Tight hallway or doorway" /> Tight hallway or doorway</label>
-            </div>
-          </fieldset>
-
-          <label class="field">
-            <span>Items to Remove</span>
-            <textarea name="items_to_remove" rows="5" placeholder="List the items you want removed, how much there is, and where it is located." required></textarea>
-          </label>
-
-          <label class="field">
-            <span>Photos</span>
-            <input type="file" name="attachment" accept="image/png, image/jpeg, image/webp, image/heic" multiple />
-          </label>
-
-          <div class="booking-actions">
-            <button class="btn btn-outline booking-back" type="button" data-prev-step="2">Back</button>
-            <button class="btn btn-blue submit-btn" type="submit">Request On-Site Quote</button>
-          </div>
-          <p class="booking-status" data-booking-submit-status aria-live="polite"></p>
-        </div>
-        </div>
+        <p class="jobber-load-status" data-jobber-status role="status">Connecting to booking...</p>
+        <div id="84193bef-02ad-49cd-93e2-4c8bfc7f103c-5115979" class="jobber-inline-work-request" data-jobber-form aria-busy="true"></div>
+        <p class="jobber-direct-link"><a data-jobber-direct href="https://clienthub.getjobber.com/hubs/84193bef-02ad-49cd-93e2-4c8bfc7f103c/public/requests/5115979/embedded_new" target="_blank" rel="noopener">Open booking form in a new tab</a></p>
+        <script src="jobber-booking.js?v=20260907-fast2"></script>
       </div>
 
       <aside class="quote-side reveal">
@@ -361,8 +207,6 @@
       <span class="theme-toggle-text">Day Mode</span>
     </button>
   </footer>
-  <link rel="stylesheet" href="https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css" media="screen" />
-  <script src="https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js" clienthub_id="84193bef-02ad-49cd-93e2-4c8bfc7f103c-5115979" form_url="https://clienthub.getjobber.com/client_hubs/84193bef-02ad-49cd-93e2-4c8bfc7f103c/public/work_request/embedded_work_request_form?form_id=5115979"></script>
-  <script src="script-20260728-calendar-fix.js"></script>
+  <script src="script-20260713b-nav.js?v=20260907-fast2"></script>
 </body>
 </html>

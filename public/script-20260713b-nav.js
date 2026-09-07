@@ -1,4 +1,10 @@
 const reveals = document.querySelectorAll(".reveal");
+if (!document.querySelector("[data-jobber-form]")) {
+  const bookingPreload = document.createElement("script");
+  bookingPreload.src = "jobber-booking.js?v=20260907-fast2";
+  bookingPreload.async = true;
+  document.head.appendChild(bookingPreload);
+}
 const siteNav = document.querySelector(".site-nav");
 const themeToggle = document.querySelector("[data-theme-toggle]");
 const navDropdowns = document.querySelectorAll(".nav-dropdown");
