@@ -72,7 +72,7 @@ const normalizeReview = (review) => {
     author: reviewer.displayName || "Google customer",
     authorPhoto: reviewer.profilePhotoUrl || "",
     rating,
-    comment: String(review.comment || "").trim() || `Rated Junkernauts ${rating} out of 5 stars.`,
+    comment: String(review.comment || "").trim() || `Rated Junkernauts Junk Removal ${rating} out of 5 stars.`,
     createTime: review.createTime || review.updateTime || "",
     updateTime: review.updateTime || review.createTime || "",
     reviewUrl: GOOGLE_REVIEWS_URL,
