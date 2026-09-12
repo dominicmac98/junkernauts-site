@@ -52,7 +52,6 @@ test("generic service-area pages use branded placeholders instead of unrelated j
     "appliance-removal.html",
     "commercial-junk-removal.html",
     "estate-cleanouts.html",
-    "garage-cleanouts.html",
     "junk-removal-canton-mi.html",
     "junk-removal-dearborn-mi.html",
     "junk-removal-detroit-mi.html",
@@ -80,6 +79,17 @@ test("generic service-area pages use branded placeholders instead of unrelated j
     assert.match(html, /assets\/junkernauts-icon-512\.png/, page);
     assert.doesNotMatch(html, /<div class="photo-grid">/, page);
   }
+});
+
+test("garage cleanouts shows the supplied matched before and after job photos", async () => {
+  const html = await readFile(path.join(publicDir, "garage-cleanouts.html"), "utf8");
+  const comparisonIndex = html.indexOf("job-comparison-intro");
+  const firstHeadingIndex = html.indexOf("<h2>");
+
+  assert.ok(comparisonIndex > 0 && comparisonIndex < firstHeadingIndex);
+  assert.match(html, /assets\/garage-cleanout-before\.webp/);
+  assert.match(html, /assets\/garage-cleanout-after\.webp/);
+  assert.match(html.slice(comparisonIndex, firstHeadingIndex), /Before:[\s\S]*After:/);
 });
 
 test("real job pages lead with their before and after photos", async () => {
