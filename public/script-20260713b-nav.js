@@ -21,7 +21,10 @@ const setThemeToggleText = () => {
   themeToggle.innerHTML = `<span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span><span class="theme-toggle-symbol"></span></span><span class="theme-toggle-text">${label}</span>`;
 };
 
-const savedTheme = localStorage.getItem("junkernautsTheme");
+let savedTheme = null;
+try {
+  savedTheme = localStorage.getItem("junkernautsTheme");
+} catch { /* Theme persistence is optional when browser storage is blocked. */ }
 if (savedTheme === "night") {
   document.body.classList.add("night-mode");
 }
@@ -29,7 +32,9 @@ setThemeToggleText();
 
 themeToggle?.addEventListener("click", () => {
   document.body.classList.toggle("night-mode");
-  localStorage.setItem("junkernautsTheme", document.body.classList.contains("night-mode") ? "night" : "day");
+  try {
+    localStorage.setItem("junkernautsTheme", document.body.classList.contains("night-mode") ? "night" : "day");
+  } catch { /* Keep the theme toggle usable without browser storage. */ }
   setThemeToggleText();
 });
 
@@ -134,16 +139,18 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-if ("IntersectionObserver" in window) {
+// Content is always visible. Only add optional motion below the initial viewport.
+if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add("visible"), index * 70);
+        entry.target.classList.add("reveal-motion");
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.12 });
 
-  reveals.forEach((item) => observer.observe(item));
-} else {
-  reveals.forEach((item) => item.classList.add("visible"));
+  reveals.forEach((item) => {
+    if (item.getBoundingClientRect().top >= window.innerHeight) observer.observe(item);
+  });
 }

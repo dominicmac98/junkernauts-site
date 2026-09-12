@@ -76,7 +76,7 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   for (const page of pages) {
     const html = await readFile(path.join(publicDir, page), "utf8");
     assert.match(html, /service-photo-placeholder/, page);
-    assert.match(html, /assets\/junkernauts-icon-512\.png/, page);
+    assert.match(html, /assets\/junkernauts-icon-512-optimized\.webp/, page);
     assert.doesNotMatch(html, /<div class="photo-grid">/, page);
   }
 });
@@ -133,7 +133,7 @@ test("before-and-after photo grids reset markup dimensions for consistent crops"
   );
 });
 
-test("pages loading the shared service stylesheet use the photo-crop revision", async () => {
+test("pages loading the shared service stylesheet use the current crawlability and photo-crop revision", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
   );
@@ -144,7 +144,7 @@ test("pages loading the shared service stylesheet use the photo-crop revision", 
     if (!html.includes("styles-20260611-passive-glow.css")) continue;
 
     servicePages.push(path.basename(htmlPath));
-    assert.match(html, /href="styles-20260611-passive-glow\.css\?v=20260904-photo-crops"/);
+    assert.match(html, /href="styles-20260611-passive-glow\.css\?v=20260912-seo"/);
   }
 
   assert.ok(servicePages.length > 0);
@@ -165,6 +165,7 @@ test("commercial junk removal is linked from the service hub and sitemap", async
   assert.match(sitemap, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
 
   for (const htmlPath of htmlFiles) {
+    if (path.basename(htmlPath) === "404.html") continue; // Error page has its own recovery navigation.
     const html = await readFile(htmlPath, "utf8");
     assert.match(html, /href="commercial-junk-removal">Commercial Junk Removal<\/a>/, path.basename(htmlPath));
   }
@@ -187,6 +188,7 @@ test("service navigation mirrors the Google Business Profile services", async ()
     const html = await readFile(htmlPath, "utf8");
     const page = path.basename(htmlPath);
 
+    if (page === "404.html") continue; // Standalone error page is tested in seo.test.js.
     for (const [href, label] of expectedLinks) {
       assert.match(html, new RegExp(`href="${href}">${label}<\\/a>`), page);
     }
@@ -207,6 +209,7 @@ test("every public page shows the daily business hours and structured hours", as
     const html = await readFile(htmlPath, "utf8");
     const page = path.basename(htmlPath);
 
+    if (page === "404.html") continue; // Error pages do not describe the business entity.
     assert.match(
       html,
       /<p class="footer-contact"><strong>Hours:<\/strong><br \/>Monday: 8 AM - 6 PM<br \/>Tuesday: 8 AM - 6 PM<br \/>Wednesday: 8 AM - 6 PM<br \/>Thursday: 8 AM - 6 PM<br \/>Friday: 8 AM - 6 PM<br \/>Saturday: 8 AM - 6 PM<br \/>Sunday: 8 AM - 6 PM<\/p>/,

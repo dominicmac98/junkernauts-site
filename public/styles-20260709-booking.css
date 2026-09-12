@@ -2159,8 +2159,15 @@ body.night-mode .nav-quote:hover {
   line-height: 1.75;
 }
 
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
-.reveal.visible { opacity: 1; transform: none; }
+/* Keep content readable before scripts run and when JavaScript is unavailable. */
+.reveal { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.reveal-motion { animation: reveal-rise 0.5s ease; }
+  @keyframes reveal-rise {
+    from { transform: translateY(18px); }
+    to { transform: none; }
+  }
+}
 
 @media (max-width: 900px) {
   .nav-shell { gap: 16px; }

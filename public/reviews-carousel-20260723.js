@@ -169,6 +169,7 @@
     updateDots();
     show(0, false);
     restartRotation();
+    if (slides.length) root.classList.add("is-ready");
   };
 
   const renderReviews = (payload) => {
@@ -184,6 +185,7 @@
     updateDots();
     show(0, false);
     restartRotation();
+    root.classList.add("is-ready");
 
     if (googleRating && payload.averageRating) {
       googleRating.textContent = `${Number(payload.averageRating).toFixed(1)} on Google`;

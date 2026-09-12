@@ -1,0 +1,23 @@
+.breadcrumbs {
+  margin: 0 0 20px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.breadcrumbs li + li::before { content: "/"; margin-right: 8px; opacity: 0.65; }
+.breadcrumbs a { text-underline-offset: 3px; }
+.breadcrumbs a:hover { text-decoration-thickness: 2px; }
+.breadcrumbs [aria-current="page"] { font-weight: 600; }

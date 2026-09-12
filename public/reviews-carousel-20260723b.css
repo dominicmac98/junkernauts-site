@@ -4,13 +4,25 @@
 }
 
 .review-carousel-stage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 18px;
+}
+
+.review-carousel-controls {
+  display: none;
+}
+
+/* Enhance the readable static reviews only after carousel setup succeeds. */
+.review-carousel.is-ready .review-carousel-stage {
+  display: block;
   position: relative;
   min-height: 390px;
   overflow: hidden;
   perspective: 1100px;
 }
 
-.review-carousel .review-card {
+.review-carousel.is-ready .review-card {
   position: absolute;
   top: 34px;
   left: 50%;
@@ -29,20 +41,20 @@
     box-shadow 0.2s ease;
 }
 
-.review-carousel .review-card.is-active,
-.review-carousel .review-card.is-prev,
-.review-carousel .review-card.is-next {
+.review-carousel.is-ready .review-card.is-active,
+.review-carousel.is-ready .review-card.is-prev,
+.review-carousel.is-ready .review-card.is-next {
   visibility: visible;
 }
 
-.review-carousel .review-card.is-active {
+.review-carousel.is-ready .review-card.is-active {
   z-index: 3;
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) scale(1);
 }
 
-.review-carousel .review-card.is-prev {
+.review-carousel.is-ready .review-card.is-prev {
   z-index: 1;
   opacity: 0.5;
   pointer-events: auto;
@@ -50,7 +62,7 @@
   transform: translateX(-118%) scale(0.82) rotateY(5deg);
 }
 
-.review-carousel .review-card.is-next {
+.review-carousel.is-ready .review-card.is-next {
   z-index: 2;
   opacity: 0.58;
   pointer-events: auto;
@@ -58,21 +70,21 @@
   transform: translateX(18%) scale(0.82) rotateY(-5deg);
 }
 
-.review-carousel .review-card.is-active:hover {
+.review-carousel.is-ready .review-card.is-active:hover {
   transform: translateX(-50%) translateY(-4px) scale(1);
 }
 
-.review-carousel .review-card.is-prev:hover {
+.review-carousel.is-ready .review-card.is-prev:hover {
   opacity: 0.68;
   transform: translateX(-118%) scale(0.84) rotateY(4deg);
 }
 
-.review-carousel .review-card.is-next:hover {
+.review-carousel.is-ready .review-card.is-next:hover {
   opacity: 0.72;
   transform: translateX(18%) scale(0.84) rotateY(-4deg);
 }
 
-.review-carousel .review-card blockquote {
+.review-carousel.is-ready .review-card blockquote {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -95,7 +107,7 @@
   object-fit: cover;
 }
 
-.review-carousel-controls {
+.review-carousel.is-ready .review-carousel-controls {
   position: relative;
   z-index: 5;
   display: flex;
@@ -174,77 +186,77 @@
 }
 
 @media (max-width: 800px) {
-  .review-carousel-stage {
+  .review-carousel.is-ready .review-carousel-stage {
     min-height: 380px;
   }
 
-  .review-carousel .review-card {
+  .review-carousel.is-ready .review-card {
     top: 28px;
     width: min(72%, 520px);
     min-height: 300px;
   }
 
-  .review-carousel .review-card.is-prev {
+  .review-carousel.is-ready .review-card.is-prev {
     opacity: 0.35;
     transform: translateX(-116%) scale(0.78);
   }
 
-  .review-carousel .review-card.is-next {
+  .review-carousel.is-ready .review-card.is-next {
     opacity: 0.4;
     transform: translateX(16%) scale(0.78);
   }
 }
 
 @media (max-width: 520px) {
-  .review-carousel-stage {
+  .review-carousel.is-ready .review-carousel-stage {
     min-height: 430px;
     margin-right: -14px;
     margin-left: -14px;
   }
 
-  .review-carousel .review-card {
+  .review-carousel.is-ready .review-card {
     top: 34px;
     width: calc(100% - 48px);
     min-height: 340px;
     padding: 22px;
   }
 
-  .review-carousel .review-card.is-prev {
+  .review-carousel.is-ready .review-card.is-prev {
     opacity: 0.2;
     transform: translateX(-104%) scale(0.74);
   }
 
-  .review-carousel .review-card.is-next {
+  .review-carousel.is-ready .review-card.is-next {
     opacity: 0.24;
     transform: translateX(4%) scale(0.74);
   }
 
-  .review-carousel .review-card.is-prev,
-  .review-carousel .review-card.is-next {
+  .review-carousel.is-ready .review-card.is-prev,
+  .review-carousel.is-ready .review-card.is-next {
     pointer-events: none;
   }
 
-  .review-carousel .review-source-row {
+  .review-carousel.is-ready .review-source-row {
     margin-bottom: 18px;
   }
 
-  .review-carousel .review-card blockquote {
+  .review-carousel.is-ready .review-card blockquote {
     font-size: 1.04rem;
     -webkit-line-clamp: 6;
   }
 
-  .review-carousel-controls {
+  .review-carousel.is-ready .review-carousel-controls {
     margin-top: -12px;
   }
 
-  .review-dots {
+  .review-carousel.is-ready .review-dots {
     max-width: 46vw;
     gap: 6px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .review-carousel .review-card,
+  .review-carousel.is-ready .review-card,
   .review-carousel-button,
   .review-dot {
     transition: none;
