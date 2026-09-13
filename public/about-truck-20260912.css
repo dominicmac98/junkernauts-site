@@ -1,0 +1,26 @@
+.about-truck-section {
+  scroll-margin-top: 100px;
+}
+
+.about-truck-photo {
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+
+.about-truck-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.about-truck-photo figcaption {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.about-truck-section .btn {
+  margin-top: 24px;
+}

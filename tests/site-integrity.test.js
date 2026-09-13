@@ -133,6 +133,30 @@ test("before-and-after photo grids reset markup dimensions for consistent crops"
   );
 });
 
+test("construction debris includes the supplied carpet and drywall before-and-after pair", async () => {
+  const html = await readFile(path.join(publicDir, "construction-debris-removal.html"), "utf8");
+  const pair = html.match(/<div class="photo-grid carpet-drywall-comparison">([\s\S]*?)<\/div>/)?.[1];
+  assert.ok(pair, "the matching renovation photos must stay in one comparison");
+  const sources = [...pair.matchAll(/src="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(sources, [
+    "assets/carpet-drywall-removal-before.webp",
+    "assets/carpet-drywall-removal-after.webp",
+  ]);
+  assert.match(pair, /Before:[\s\S]*After:/);
+  assert.match(html, /assets\/deck-demolition-before\.jpg/);
+  assert.match(html, /assets\/outdoor-debris-before\.webp/);
+});
+
+test("about introduces the real hauling truck without replacing the existing logo", async () => {
+  const html = await readFile(path.join(publicDir, "about.html"), "utf8");
+  const section = html.match(/<section class="about-truck-section"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section);
+  assert.match(section, /src="assets\/junkernauts-hauling-truck\.webp"/);
+  assert.match(section, /width="960" height="1280" loading="lazy"/);
+  assert.match(section, /href="services"/);
+  assert.match(html, /class="about-logo"/);
+});
+
 test("pages loading the shared service stylesheet use the current crawlability and photo-crop revision", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
