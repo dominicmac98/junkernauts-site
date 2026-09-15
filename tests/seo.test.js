@@ -126,6 +126,8 @@ test("business and page schema use consistent public identifiers", () => {
     assert.equal(webPages.length, 1, `${page.file}: one WebPage definition`);
     assert.equal(webPages[0]["@id"], `${page.url}#webpage`, page.file);
     assert.equal(webPages[0].url, page.url, page.file);
+    assert.equal(webPages[0].name, text(page.head.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)[1]), page.file);
+    assert.equal(webPages[0].description, metadata(page.head, "description"), page.file);
     const websites = graph.filter((node) => hasType(node, "WebSite"));
     assert.equal(websites.length, page.route === "/" ? 1 : 0, page.file);
     if (websites.length) assert.equal(websites[0]["@id"], `${origin}/#website`, page.file);
@@ -135,6 +137,7 @@ test("business and page schema use consistent public identifiers", () => {
     for (const service of services) {
       assert.equal(service.provider?.["@id"], businessId, page.file);
       assert.equal(service.url, page.url, page.file);
+      assert.equal(service.description, metadata(page.head, "description"), page.file);
       const areas = [service.areaServed].flat().filter(Boolean);
       assert.ok(areas.length > 0, `${page.file}: service area is required`);
       assert.ok(areas.every((area) => typeof area === "string" ? area.trim() : area.name?.trim()), page.file);
@@ -214,6 +217,41 @@ test("every image reserves its layout size and retains an explicit alt attribute
       assert.ok(Number(image.width) > 0 && Number(image.height) > 0, `${page.file}: ${image.src} needs dimensions`);
       assert.ok(Object.hasOwn(image, "alt"), `${page.file}: ${image.src} needs alt text or an explicit decorative alt`);
       if (/junkernauts-icon-512-optimized/.test(image.src)) assert.equal(image.loading, "lazy", page.file);
+    }
+  }
+});
+
+test("indexable pages expose one descriptive primary heading without client-side rendering", () => {
+  for (const page of indexable) {
+    const headings = [...page.html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+    assert.equal(headings.length, 1, `${page.file}: one main heading`);
+    assert.ok(text(headings[0][1]).length > 0, `${page.file}: main heading must be readable`);
+  }
+});
+
+test("priority service and location pages have contextual crawlable links outside navigation", () => {
+  const home = pages.find((page) => page.route === "/");
+  const servicesSection = home.html.match(/<section\b[^>]*aria-labelledby="home-services-heading"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(servicesSection, "homepage must expose the service discovery section in static HTML");
+  const expected = [
+    ["/", servicesSection, ["/garage-cleanouts", "/furniture-removal", "/construction-debris-removal", "/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi"]],
+    ["/junk-removal-ypsilanti-mi", null, ["/furniture-removal", "/appliance-removal", "/garage-cleanouts", "/basement-cleanouts", "/pricing"]],
+    ["/junk-removal-ann-arbor-mi", null, ["/furniture-removal", "/basement-cleanouts", "/construction-debris-removal", "/pricing"]],
+    ["/garage-cleanouts", null, ["/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi", "/basement-cleanouts", "/pricing"]],
+    ["/furniture-removal", null, ["/junk-removal-westland-mi", "/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi"]],
+    ["/junk-removal-westland-mi", null, ["/furniture-removal", "/appliance-removal", "/garage-cleanouts", "/pricing"]],
+  ];
+  for (const [route, section, destinations] of expected) {
+    const page = pages.find((page) => page.route === route);
+    const content = section ?? page.html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+    assert.ok(content, `${route}: missing main content`);
+    const anchors = [...content.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+      .map((match) => ({ ...attributes(match[1]), text: text(match[2]) }));
+    for (const destination of destinations) {
+      const anchor = anchors.find((anchor) => new URL(anchor.href, page.url).pathname === destination);
+      assert.ok(anchor?.text, `${route}: missing descriptive link to ${destination}`);
+      assert.ok(!/\bnofollow\b/i.test(anchor.rel ?? ""), `${route}: service link must be crawlable`);
+      assert.ok(sitemapUrls.includes(`${origin}${destination}`), `${destination}: destination must be indexable`);
     }
   }
 });
