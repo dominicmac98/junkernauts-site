@@ -58,7 +58,6 @@ test("generic service-area pages use branded placeholders instead of unrelated j
     "junk-removal-farmington-hills-mi.html",
     "junk-removal-livonia-mi.html",
     "junk-removal-monroe-mi.html",
-    "junk-removal-novi-mi.html",
     "junk-removal-pontiac-mi.html",
     "junk-removal-port-huron-mi.html",
     "junk-removal-rochester-hills-mi.html",
@@ -123,6 +122,35 @@ test("furniture removal includes a distinct curbside pickup before and after", a
   assert.match(html, /assets\/curbside-pickup-after-private\.jpg/);
   assert.doesNotMatch(html, /<h2>Recent Pool Table Removal<\/h2>/);
 });
+
+for (const page of ["junk-removal-novi-mi.html", "furniture-removal.html"]) {
+  test(`${page} shows the supplied Novi sectional before and after with local job context`, async () => {
+    const html = await readFile(path.join(publicDir, page), "utf8");
+    const pair = html.match(/<div class="photo-grid novi-sectional-comparison">([\s\S]*?)<\/div>/)?.[1];
+    assert.ok(pair, "keep the matching living-room photos together");
+    const images = [...pair.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
+    assert.equal(images.length, 2);
+    assert.match(images[0], /src="assets\/novi-sectional-removal-before\.webp"/);
+    assert.match(images[1], /src="assets\/novi-sectional-removal-after\.webp"/);
+    for (const image of images) {
+      assert.match(image, /alt="[^"]*Novi[^"]*"/);
+      assert.match(image, /width="1600" height="1200" loading="lazy" decoding="async"/);
+    }
+    assert.match(pair, /Before:[\s\S]*After:/);
+    assert.match(html, /id="novi-sectional-removal"/);
+    assert.match(html, /part of (?:a|the) (?:larger |house )?cleanout/);
+    if (page === "junk-removal-novi-mi.html") {
+      assert.doesNotMatch(html, /service-photo-placeholder|placeholder-layout-20260828/);
+      assert.match(html, /href="furniture-removal">couch and furniture removal service/);
+      assert.match(html, /href="estate-cleanouts">estate and property cleanouts/);
+    } else {
+      assert.match(html, /href="junk-removal-novi-mi">junk removal in Novi/);
+      assert.match(html, /assets\/pool-table-removal\.webp/);
+      assert.match(html, /assets\/curbside-pickup-before\.jpg/);
+      assert.match(html, /assets\/curbside-pickup-after-private\.jpg/);
+    }
+  });
+}
 
 test("before-and-after photo grids reset markup dimensions for consistent crops", async () => {
   const styles = await readFile(path.join(publicDir, "styles-20260611-passive-glow.css"), "utf8");
