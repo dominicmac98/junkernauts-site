@@ -1100,6 +1100,10 @@ section {
   align-items: stretch;
 }
 
+.job-gallery-section .monroe-decking-comparison {
+  margin-bottom: 48px;
+}
+
 .job-photo-card {
   position: relative;
   overflow: hidden;
@@ -1316,7 +1320,7 @@ section {
 }
 
 .photo-card { overflow: hidden; }
-.photo-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.photo-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
 .photo-card p { padding: 14px 16px 18px; margin: 0; font-weight: 800; color: var(--navy); }
 
 .nearby-card { padding: 28px; margin-top: 24px; }
