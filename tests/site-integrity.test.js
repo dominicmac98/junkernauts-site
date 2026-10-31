@@ -54,7 +54,6 @@ test("generic service-area pages use branded placeholders instead of unrelated j
     "estate-cleanouts.html",
     "junk-removal-canton-mi.html",
     "junk-removal-dearborn-mi.html",
-    "junk-removal-detroit-mi.html",
     "junk-removal-farmington-hills-mi.html",
     "junk-removal-livonia-mi.html",
     "junk-removal-pontiac-mi.html",

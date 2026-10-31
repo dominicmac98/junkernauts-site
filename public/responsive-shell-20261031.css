@@ -1,0 +1,106 @@
+/* Keep the fixed header within tablet widths without changing its flow height. */
+@media (min-width: 681px) and (max-width: 1000px) {
+  .site-nav {
+    gap: 20px;
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+
+  .site-nav .brand {
+    flex-shrink: 0;
+  }
+
+  .site-nav .brand-logo {
+    width: 106px !important;
+    height: 74px !important;
+  }
+
+  .site-nav .nav-shell {
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .site-nav .nav-links {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 12px;
+  }
+
+  .site-nav .nav-links a,
+  .site-nav.nav-compact .nav-links a {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .site-nav .nav-actions {
+    min-width: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .site-nav .nav-phone-number,
+  .site-nav.nav-compact .nav-phone-number {
+    font-size: 0.9rem;
+  }
+
+  .site-nav .nav-cta,
+  .site-nav.nav-compact .nav-cta {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .site-nav .nav-dropdown {
+    position: static;
+  }
+
+  .site-nav .services-menu {
+    left: 4%;
+    right: 4%;
+    top: 100%;
+    width: auto;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    transform: translateY(8px);
+  }
+
+  .site-nav .nav-dropdown:hover .services-menu,
+  .site-nav .nav-dropdown:focus-within .services-menu,
+  .site-nav .nav-dropdown.is-open .services-menu,
+  .site-nav .nav-dropdown.is-hover-open .services-menu {
+    transform: translateY(0);
+  }
+}
+
+/* Let the footer use available width rather than the links' unwrapped minimum. */
+@media (max-width: 1000px) {
+  .footer-inner,
+  .footer-inner > div,
+  .footer-links {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .footer-inner {
+    flex-wrap: wrap;
+  }
+
+  .footer-links {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    padding-left: 0;
+  }
+
+  .footer-contact,
+  .footer-social,
+  .footer-reviews,
+  .footer-links a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
