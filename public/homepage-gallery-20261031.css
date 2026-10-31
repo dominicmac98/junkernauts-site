@@ -1,0 +1,296 @@
+/* Homepage option 2: real local jobs lead, with the existing site shell intact. */
+.hero.home-gallery-hero {
+  min-height: 0;
+  display: block;
+  padding: 32px 5% 28px;
+  background: #0a1c2b;
+}
+
+.home-gallery-hero::before,
+.home-gallery-hero::after {
+  display: none;
+}
+
+.home-gallery-hero .hero-inner {
+  width: 100%;
+}
+
+.home-gallery-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 36px;
+  margin-bottom: 28px;
+}
+
+.home-gallery-hero .hero-copy {
+  max-width: none;
+  min-width: 0;
+}
+
+.home-gallery-hero .eyebrow {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #7dd3fc;
+  font-size: 0.72rem;
+}
+
+.home-gallery-hero .hero-copy h1 {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(2.65rem, 4.5vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: 0.01em;
+}
+
+.home-gallery-hero .hero-sub {
+  margin: 0;
+  color: #c4d8e5;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.home-job-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.home-gallery-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #315064;
+  border-radius: 8px;
+  background: #143044;
+}
+
+.home-comparison-media {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-comparison-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #102838;
+}
+
+.home-gallery-card [hidden] {
+  display: none !important;
+}
+
+.home-gallery-card.is-enhanced .home-comparison-media {
+  display: block;
+  aspect-ratio: 4 / 3;
+}
+
+.home-comparison-state {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 7px 11px;
+  border-radius: 3px;
+  background: #082236;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.home-gallery-card.is-enhanced .home-comparison-state {
+  display: block;
+}
+
+.home-comparison-nojs-labels {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+  color: #e2f4ff;
+  font-size: 0.75rem;
+}
+
+.home-gallery-card.is-enhanced .home-comparison-nojs-labels {
+  display: none;
+}
+
+.home-gallery-card-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px;
+}
+
+.home-gallery-location {
+  display: block;
+  margin-bottom: 12px;
+  color: #7dd3fc;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-gallery-card h2 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(1.45rem, 2.2vw, 1.8rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+}
+
+.home-gallery-card p {
+  margin: 0 0 18px;
+  color: #c4d8e5;
+  font-size: 0.79rem;
+  line-height: 1.65;
+}
+
+.home-comparison-controls {
+  margin-top: auto;
+}
+
+.home-comparison-buttons {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 6px;
+  background: #e4eff5;
+}
+
+.home-comparison-buttons button {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #183c51;
+  font: 700 0.73rem "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.home-comparison-buttons button[aria-pressed="true"] {
+  background: #0b2c42;
+  color: #fff;
+}
+
+.home-comparison-buttons button[data-home-pause] {
+  border-left: 1px solid #bed1dd;
+  border-radius: 0 4px 4px 0;
+}
+
+.home-comparison-buttons button:focus-visible {
+  outline: 3px solid #006db3;
+  outline-offset: 2px;
+}
+
+.home-comparison-autoplay {
+  display: block;
+  margin-top: 10px;
+  color: #bdd6e6;
+  font-size: 0.69rem;
+  line-height: 1.5;
+}
+
+.home-gallery-hero .hero-paths {
+  max-width: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.home-gallery-hero .hero-path {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.home-gallery-hero .hero-path .btn {
+  min-height: 48px;
+  font-size: 0.92rem;
+}
+
+.home-gallery-hero .hero-path-primary .btn {
+  background: #65d4ff;
+  color: #092337;
+}
+
+.home-gallery-hero .hero-path-primary .btn:hover {
+  background: #99e3ff;
+}
+
+.home-gallery-hero .hero-path p {
+  color: #c4d8e5;
+  font-size: 0.79rem;
+}
+
+.home-gallery-hero .hero-support-links {
+  font-size: 0.8rem;
+  gap: 24px;
+}
+
+.home-gallery-hero .hero-support-links a {
+  color: #99deff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.home-gallery-hero .stats {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #29495e;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.home-gallery-hero .stats > div {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+.home-gallery-hero .stat-number {
+  font-size: 1.9rem;
+  color: #7dd3fc;
+}
+
+.home-gallery-hero .stat-label {
+  color: #c4d8e5;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 1000px) {
+  .home-gallery-intro { gap: 24px; }
+  .home-job-gallery { gap: 14px; }
+  .home-gallery-card-copy { padding: 14px; }
+  .home-comparison-buttons button { padding-inline: 5px; }
+}
+
+@media (max-width: 760px) {
+  .hero.home-gallery-hero { padding: 26px 5%; }
+  .home-gallery-intro { grid-template-columns: 1fr; gap: 18px; margin-bottom: 24px; }
+  .home-gallery-hero .hero-copy h1 { font-size: clamp(2.5rem, 7vw, 3.1rem); }
+  .home-gallery-hero .hero-sub { max-width: none; font-size: 0.9rem; }
+  .home-job-gallery { grid-template-columns: 1fr; gap: 22px; }
+  .home-gallery-card-copy { padding: 18px; }
+  .home-gallery-card h2 { font-size: 1.7rem; }
+  .home-gallery-card p { font-size: 0.86rem; }
+  .home-comparison-buttons { max-width: 360px; }
+  .home-gallery-hero .hero-paths { grid-template-columns: 1fr; gap: 26px; }
+  .home-gallery-hero .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+}
