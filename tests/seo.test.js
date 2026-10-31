@@ -9,7 +9,7 @@ const businessId = `${origin}/#business`;
 const serviceRoutes = new Set([
   "/appliance-removal", "/basement-cleanouts", "/commercial-junk-removal",
   "/construction-debris-removal", "/estate-cleanouts", "/furniture-removal",
-  "/garage-cleanouts", "/services",
+  "/garage-cleanouts", "/light-demolition", "/services",
 ]);
 
 function decode(value = "") {

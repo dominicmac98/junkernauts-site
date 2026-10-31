@@ -1,0 +1,138 @@
+.demo-project {
+  padding: 64px 5%;
+  background: #f4f9fc;
+  scroll-margin-top: 126px;
+}
+
+.demo-project--alternate {
+  background: #eaf4fa;
+}
+
+.demo-project .section-inner {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.demo-project .section-title {
+  color: var(--navy);
+}
+
+.demo-project .section-tag {
+  color: var(--blue);
+}
+
+.demo-project .section-sub,
+.demo-project p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.demo-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.demo-photo-card {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(0, 78, 140, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(4, 28, 43, 0.08);
+}
+
+.demo-photo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+}
+
+.demo-photo-card figcaption {
+  padding: 16px 18px;
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+.demo-project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 24px;
+  margin-top: 26px;
+}
+
+.demo-project-actions .card-link {
+  margin: 0;
+  color: var(--blue);
+}
+
+.demo-estimate {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 36px;
+}
+
+.demo-estimate p + p {
+  margin-top: 16px;
+}
+
+.demo-estimate-note {
+  padding: 26px;
+  border: 1px solid rgba(0, 78, 140, 0.16);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.demo-estimate-note h3 {
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.demo-estimate-note a {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+body.night-mode .demo-photo-card,
+body.night-mode .demo-estimate-note {
+  background: #101d2c;
+  border-color: rgba(125, 211, 252, 0.18);
+}
+
+body.night-mode .demo-project p,
+body.night-mode .demo-photo-card figcaption {
+  color: #b7cde0;
+}
+
+body.night-mode .demo-project a:not(.btn),
+body.night-mode .demo-project .section-tag,
+body.night-mode .demo-estimate-note h3 {
+  color: #7dd3fc;
+}
+
+@media (max-width: 720px) {
+  .demo-project {
+    padding: 40px 5%;
+    scroll-margin-top: 100px;
+  }
+
+  .demo-photo-grid,
+  .demo-estimate {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .demo-project-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

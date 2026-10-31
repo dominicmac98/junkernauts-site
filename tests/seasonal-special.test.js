@@ -16,7 +16,7 @@ function attributes(tag) {
     .map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]));
 }
 
-test("all forty promotional banners use the year-end name without changing their destination or offer copy", () => {
+test("all promotional banners use the year-end name without changing their destination or offer copy", () => {
   let count = 0;
   for (const { file, html } of pages) {
     const banners = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)]
@@ -31,7 +31,7 @@ test("all forty promotional banners use the year-end name without changing their
       count++;
     }
   }
-  assert.equal(count, 40);
+  assert.equal(count, pages.filter((page) => page.file !== "404.html").length);
 });
 
 test("public HTML no longer advertises the superseded summer promotion", () => {

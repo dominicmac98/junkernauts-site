@@ -269,7 +269,7 @@ test("commercial junk removal is linked from the service hub and sitemap", async
   }
 });
 
-test("service navigation mirrors the Google Business Profile services", async () => {
+test("service navigation exposes each service consistently", async () => {
   const htmlFiles = (await collect(publicDir)).filter(
     (filePath) => path.extname(filePath).toLowerCase() === ".html",
   );
@@ -280,6 +280,7 @@ test("service navigation mirrors the Google Business Profile services", async ()
     ["estate-cleanouts", "Estate &amp; Property Cleanouts"],
     ["construction-debris-removal", "Construction Debris"],
     ["commercial-junk-removal", "Commercial Junk Removal"],
+    ["light-demolition", "Light Demolition"],
   ];
 
   for (const htmlPath of htmlFiles) {
