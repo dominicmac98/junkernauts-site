@@ -85,7 +85,7 @@ test("homepage adds Novi and South Lyon pairs while keeping Detroit photos off t
   ]) assert.ok(html.includes(`src="assets/${asset}"`), `preserve ${asset}`);
 });
 
-test("all service and location detail layouts load the shared responsive stylesheet last", async () => {
+test("all service and location detail layouts load responsive overrides after older layout styles", async () => {
   const files = (await readdir(publicDir)).filter((file) => file.endsWith(".html"));
   let count = 0;
   for (const file of files) {
@@ -96,7 +96,9 @@ test("all service and location detail layouts load the shared responsive stylesh
     const styles = [...head.matchAll(/<link\b[^>]*>/g)].map((match) => attributes(match[0]))
       .filter((link) => link.rel === "stylesheet").map((link) => link.href.split("?")[0]);
     assert.equal(styles.filter((href) => href === "detail-layout-20261031.css").length, 1, file);
-    assert.equal(styles.at(-1), "detail-layout-20261031.css", `${file}: layout overrides load after older styles`);
+    // Footer-only styles may follow the detail layout without changing its cascade.
+    assert.equal(styles.filter((href) => href !== "footer-compact-20261101.css").at(-1),
+      "detail-layout-20261031.css", `${file}: layout overrides load after older styles`);
   }
   assert.ok(count >= 29, "cover the shared detail-page family");
 });
