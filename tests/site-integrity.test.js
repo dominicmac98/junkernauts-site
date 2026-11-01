@@ -11,6 +11,11 @@ const textExtensions = new Set([
   ".html", ".js", ".css", ".xml", ".txt", ".md", ".json", ".jsonc",
 ]);
 
+// Copy checks ignore only the new inline mention links, retaining other markup.
+const withoutContentLinks = (html) => html.replace(
+  /<a\b(?=[^>]*\bclass="content-link")[^>]*>([\s\S]*?)<\/a>/gi, "$1",
+);
+
 async function collect(directory) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -136,7 +141,7 @@ for (const page of ["junk-removal-novi-mi.html", "furniture-removal.html"]) {
     }
     assert.match(pair, /Before:[\s\S]*After:/);
     assert.match(html, /id="novi-sectional-removal"/);
-    assert.match(html, /part of (?:a|the) (?:larger |house )?cleanout/);
+    assert.match(withoutContentLinks(html), /part of (?:a|the) (?:larger |house )?cleanout/);
     if (page === "junk-removal-novi-mi.html") {
       assert.doesNotMatch(html, /service-photo-placeholder|placeholder-layout-20260828/);
       assert.match(html, /href="furniture-removal">couch and furniture removal service/);
@@ -294,7 +299,7 @@ test("service navigation exposes each service consistently", async () => {
 
   const services = await readFile(path.join(publicDir, "services.html"), "utf8");
   for (const [, label] of expectedLinks) {
-    assert.match(services, new RegExp(`<h3>${label}<\\/h3>`));
+    assert.match(withoutContentLinks(services), new RegExp(`<h3>${label}<\\/h3>`));
   }
 });
 

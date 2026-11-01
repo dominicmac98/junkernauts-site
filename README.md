@@ -28,6 +28,18 @@ npm run dev
 
 For local booking API testing, create a `.dev.vars` file with the Google Calendar and optional Resend variables from `BOOKING_BACKEND.md`.
 
+## Links in page content
+
+City and service-category mentions in visible copy should link to the relevant page.
+Cities without a dedicated page link to `service-areas`. Keep business names,
+county references, metadata, image attributes, form controls, current breadcrumbs,
+and existing links intact.
+
+After editing copy, run `npm run links:write` to insert static links, then
+`npm run links:check` and `npm test`. The mappings and service aliases are in
+`scripts/link-content.mjs`; add a mapping when introducing a new destination or
+category. The test suite checks for unlinked supported mentions and broken targets.
+
 ## Live Google reviews
 
 The homepage carousel calls `/api/reviews`, which reads the verified location's

@@ -15,6 +15,11 @@ const photoStages = [
 
 const readPublic = (file) => readFile(new URL(file, publicDir), "utf8");
 
+// Copy checks ignore only the new inline mention links, retaining other markup.
+const withoutContentLinks = (html) => html.replace(
+  /<a\b(?=[^>]*\bclass="content-link")[^>]*>([\s\S]*?)<\/a>/gi, "$1",
+);
+
 function attributes(tag) {
   return Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)]
     .map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]));
@@ -56,8 +61,8 @@ async function assertPhoto(figure, stage, label) {
 test("light demolition presents all six South Lyon photos with accurate project stages", async () => {
   const html = await readPublic("light-demolition.html");
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? "";
-  const copy = main.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
-  assert.match(html, /<h1>Light Demolition &amp; Shed Removal<\/h1>/);
+  const copy = withoutContentLinks(main).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  assert.match(withoutContentLinks(html), /<h1>Light Demolition &amp; Shed Removal<\/h1>/);
   assert.match(copy, /South Lyon, Michigan/);
   assert.match(copy, /removed[^.]*inside the shed|emptied the shed|cleared[^.]*contents/i);
   assert.match(copy, /demolished the structure|dismantled the structure/i);
@@ -73,7 +78,7 @@ test("light demolition presents all six South Lyon photos with accurate project 
 
 test("the Services hub shows the shed before and after and links to the full project", async () => {
   const html = await readPublic("services.html");
-  assert.match(html, /<h3>Light Demolition<\/h3>/);
+  assert.match(withoutContentLinks(html), /<h3>Light Demolition<\/h3>/);
   const section = [...html.matchAll(/<section\b([^>]*)>([\s\S]*?)<\/section>/gi)]
     .find((match) => attributes(match[1]).id === "light-demolition")?.[2] ?? "";
   assert.match(section, /South Lyon/);

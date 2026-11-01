@@ -5,6 +5,11 @@ import test from "node:test";
 const publicDir = new URL("../public/", import.meta.url);
 const readPublic = (file) => readFile(new URL(file, publicDir), "utf8");
 
+// Copy checks ignore only the new inline mention links, retaining other markup.
+const withoutContentLinks = (html) => html.replace(
+  /<a\b(?=[^>]*\bclass="content-link")[^>]*>([\s\S]*?)<\/a>/gi, "$1",
+);
+
 function attributes(tag) {
   return Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)]
     .map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]));
@@ -16,7 +21,7 @@ for (const file of ["junk-removal-detroit-mi.html", "construction-debris-removal
     const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? "";
     const pair = main.match(/<div\b[^>]*class="[^"]*\bdetroit-cleanup-comparison\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1];
     assert.ok(pair, "the two Detroit photos stay together");
-    assert.match(main, /Construction Debris &amp; Yard Waste/);
+    assert.match(withoutContentLinks(main), /Construction Debris &amp; Yard Waste/);
     assert.match(main, /Detroit/);
     assert.match(pair, /Before:[\s\S]*After:/);
     const images = [...pair.matchAll(/<img\b[^>]*>/g)].map((match) => attributes(match[0]));

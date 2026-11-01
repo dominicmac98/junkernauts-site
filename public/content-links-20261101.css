@@ -1,0 +1,19 @@
+/* Links in existing copy retain the surrounding type and layout. */
+body a.content-link {
+  display: inline;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  text-decoration-color: currentColor;
+  border: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body a.content-link:hover { text-decoration-thickness: 2px; }
+body a.content-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }

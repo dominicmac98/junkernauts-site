@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
+    "links:check": "node scripts/link-content.mjs",
+    "links:write": "node scripts/link-content.mjs --write",
     "audit:seo": "node scripts/audit-live-seo.mjs",
     "dev": "wrangler pages dev public --compatibility-date=2026-07-03",
     "deploy": "wrangler pages deploy public --project-name=junkernauts-site"
