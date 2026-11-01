@@ -101,8 +101,8 @@ test("all service and location detail layouts load responsive overrides after ol
     const styles = [...head.matchAll(/<link\b[^>]*>/g)].map((match) => attributes(match[0]))
       .filter((link) => link.rel === "stylesheet").map((link) => link.href.split("?")[0]);
     assert.equal(styles.filter((href) => href === "detail-layout-20261031.css").length, 1, file);
-    // Footer-only styles may follow the detail layout without changing its cascade.
-    assert.equal(styles.filter((href) => href !== "footer-compact-20261101.css").at(-1),
+    // Header- and footer-only styles may follow without changing the content layout cascade.
+    assert.equal(styles.filter((href) => !["headers-compact-20261101.css", "footer-compact-20261101.css"].includes(href)).at(-1),
       "detail-layout-20261031.css", `${file}: layout overrides load after older styles`);
   }
   assert.ok(count >= 29, "cover the shared detail-page family");

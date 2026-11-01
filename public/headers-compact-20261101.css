@@ -1,0 +1,84 @@
+/* Use the Service Areas heading scale across the site, below the unchanged
+   navigation and seasonal banner. Keep every header content-driven. */
+.page-hero,
+.hero.home-gallery-hero {
+  padding: 26px 5% 28px;
+}
+
+.page-hero-inner {
+  max-width: 1120px;
+}
+
+.page-hero .breadcrumbs {
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+
+.page-hero .eyebrow {
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  font-size: 0.7rem;
+}
+
+.page-hero h1 {
+  max-width: 1040px;
+  margin-bottom: 12px;
+}
+
+.page-hero h1,
+.home-gallery-hero .hero-copy h1 {
+  font-size: clamp(2.1rem, 4.1vw, 3.1rem);
+  line-height: 1.02;
+}
+
+.page-hero .page-sub {
+  max-width: 85ch;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.page-hero .hero-actions {
+  margin-top: 16px;
+  gap: 10px 12px;
+}
+
+/* Keep the chosen homepage gallery, bringing its photos closer to the intro. */
+.home-gallery-intro {
+  margin-bottom: 24px;
+}
+
+.home-gallery-hero .eyebrow {
+  margin-bottom: 8px;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 680px) {
+  .page-hero,
+  .hero.home-gallery-hero {
+    padding: 18px 5% 24px;
+  }
+
+  .page-hero h1,
+  .home-gallery-hero .hero-copy h1 {
+    font-size: clamp(2rem, 8.5vw, 2.6rem);
+  }
+
+  .page-hero .page-sub {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .page-hero .hero-actions {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .page-hero .hero-actions .btn {
+    flex: 1 1 160px;
+    width: auto;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
