@@ -30,15 +30,15 @@ For local booking API testing, create a `.dev.vars` file with the Google Calenda
 
 ## Links in page content
 
-City and service-category mentions in visible copy should link to the relevant page.
-Cities without a dedicated page link to `service-areas`. Keep business names,
-county references, metadata, image attributes, form controls, current breadcrumbs,
-and existing links intact.
+Use deliberate links in navigation, service cards, city lists, project links, and
+calls to action. Keep ordinary headings, descriptions, and photo captions mostly
+plain text; do not automatically link every city or service-category mention.
+When an explicit city link is useful but no dedicated page exists, link to
+`service-areas`.
 
-After editing copy, run `npm run links:write` to insert static links, then
-`npm run links:check` and `npm test`. The mappings and service aliases are in
-`scripts/link-content.mjs`; add a mapping when introducing a new destination or
-category. The test suite checks for unlinked supported mentions and broken targets.
+After editing links, run `npm run links:check` and `npm test`. These checks cover
+readable links, local destinations and section anchors, and reachability of all
+sitemap pages from the homepage. There is no automatic keyword-linking command.
 
 ## Live Google reviews
 
