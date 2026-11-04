@@ -56,7 +56,6 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   const pages = [
     "appliance-removal.html",
     "commercial-junk-removal.html",
-    "estate-cleanouts.html",
     "junk-removal-canton-mi.html",
     "junk-removal-dearborn-mi.html",
     "junk-removal-farmington-hills-mi.html",
@@ -186,12 +185,20 @@ for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-d
   });
 }
 
-test("Recent Jobs features Monroe first and preserves the Ann Arbor gallery", async () => {
+test("Recent Jobs features the Novi cleanouts and preserves the Monroe and Ann Arbor galleries", async () => {
   const html = await readFile(path.join(publicDir, "index.html"), "utf8");
   const section = html.match(/<section class="job-gallery-section"[\s\S]*?<\/section>/)?.[0];
   assert.ok(section);
   assert.match(section, /id="recent-jobs"/);
   assert.match(section, />Recent Jobs</);
+  for (const project of ["novi-basement-cleanout", "novi-closet-cleanout"]) {
+    for (const stage of ["before", "after"]) {
+      const photo = `assets/${project}-${stage}.webp`;
+      assert.ok(section.includes(photo), `show the new ${project} ${stage} photo`);
+      assert.ok(section.indexOf(photo) < section.indexOf("monroe-decking-removal-before.webp"),
+        "new Novi jobs should precede older projects");
+    }
+  }
   assert.match(section, /href="junk-removal-monroe-mi#monroe-decking-removal"/);
   assert.ok(section.indexOf("monroe-decking-removal-before.webp") < section.indexOf("ann-arbor-basement-cleanout-before.webp"));
   for (const image of ["before", "after", "loaded"]) {

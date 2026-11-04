@@ -57,9 +57,12 @@ for (const file of ["junk-removal-detroit-mi.html", "construction-debris-removal
   });
 }
 
-test("homepage adds Novi and South Lyon pairs while keeping Detroit photos off the homepage", async () => {
+test("homepage preserves the existing Novi and South Lyon pairs while keeping Detroit photos off the homepage", async () => {
   const html = await readPublic("index.html");
-  const cards = [...html.matchAll(/<article\b[^>]*class="home-project-card"[^>]*>([\s\S]*?)<\/article>/g)]
+  const projectsStart = html.indexOf('id="more-local-jobs"');
+  assert.ok(projectsStart >= 0, "preserve the original local-job gallery");
+  const projects = html.slice(projectsStart, html.indexOf("</section>", projectsStart));
+  const cards = [...projects.matchAll(/<article\b[^>]*class="home-project-card"[^>]*>([\s\S]*?)<\/article>/g)]
     .map((match) => match[1]);
   assert.equal(cards.length, 2);
   for (const [index, [prefix, city, href]] of [

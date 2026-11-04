@@ -1,0 +1,31 @@
+/* Keep the full before-and-after frames visible, including portrait closets. */
+.recent-cleanout-projects {
+  margin-bottom: 48px;
+}
+
+.recent-cleanout-projects .home-project-pair img {
+  height: 240px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.seo-main .photo-grid.novi-closet-comparison {
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seo-main .photo-grid.novi-closet-comparison .photo-card img {
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+}
+
+@media (max-width: 540px) {
+  .recent-cleanout-projects .home-project-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .recent-cleanout-projects .home-project-pair img {
+    height: auto;
+  }
+}
