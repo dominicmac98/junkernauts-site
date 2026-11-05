@@ -287,7 +287,8 @@ test("service navigation exposes each service consistently", async () => {
   const expectedLinks = [
     ["furniture-removal", "Furniture Removal"],
     ["appliance-removal", "Appliance Removal"],
-    ["garage-cleanouts", "Garage &amp; Basement Cleanouts"],
+    ["garage-cleanouts", "Garage Cleanouts"],
+    ["basement-cleanouts", "Basement Cleanouts"],
     ["estate-cleanouts", "Estate &amp; Property Cleanouts"],
     ["construction-debris-removal", "Construction Debris"],
     ["commercial-junk-removal", "Commercial Junk Removal"],
