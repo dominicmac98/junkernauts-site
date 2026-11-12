@@ -100,7 +100,7 @@ test("all service and city pages load the shared photo layout after older styles
     "garage-cleanouts.html", "light-demolition.html", "services.html",
   ]);
   const cities = files.filter(file => /^junk-removal-.+-mi\.html$/.test(file));
-  assert.ok(cities.length >= 21, "cover all city pages");
+  assert.equal(cities.length, 8, "cover the eight retained city pages");
   for (const file of [...services, ...cities]) {
     const html = await readPublic(file);
     const head = html.match(/<head>([\s\S]*?)<\/head>/i)?.[1] ?? "";

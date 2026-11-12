@@ -240,8 +240,7 @@ test("priority service and location pages have contextual crawlable links outsid
     ["/junk-removal-canton-mi", null, ["/furniture-removal", "/basement-cleanouts", "/estate-cleanouts"]],
     ["/junk-removal-livonia-mi", null, ["/furniture-removal", "/basement-cleanouts", "/estate-cleanouts"]],
     ["/garage-cleanouts", null, ["/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi", "/basement-cleanouts", "/pricing"]],
-    ["/furniture-removal", null, ["/junk-removal-westland-mi", "/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi"]],
-    ["/junk-removal-westland-mi", null, ["/furniture-removal", "/appliance-removal", "/garage-cleanouts", "/pricing"]],
+    ["/furniture-removal", null, ["/service-areas", "/junk-removal-ypsilanti-mi", "/junk-removal-ann-arbor-mi"]],
   ];
   for (const [route, section, destinations] of expected) {
     const page = pages.find((page) => page.route === route);

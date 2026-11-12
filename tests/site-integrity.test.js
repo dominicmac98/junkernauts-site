@@ -56,7 +56,6 @@ const localCityHeroes = {
   "ann-arbor": "ann-arbor-basement-cleanout-before.webp",
   "brighton": "patio-cleanout-before.webp",
   "detroit": "detroit-construction-yard-cleanup-before.webp",
-  "monroe": "monroe-decking-removal-before.webp",
   "novi": "novi-basement-cleanout-before.webp",
 };
 
@@ -209,7 +208,7 @@ for (const page of ["junk-removal-novi-mi.html", "furniture-removal.html"]) {
   });
 }
 
-for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-debris-removal.html"]) {
+for (const page of ["index.html", "service-areas.html", "construction-debris-removal.html"]) {
   test(`${page} shows the matched Monroe decking removal before and after`, async () => {
     const html = await readFile(path.join(publicDir, page), "utf8");
     const pair = html.match(/<div class="photo-grid monroe-decking-comparison(?: reveal)?">([\s\S]*?)<\/div>/)?.[1];
@@ -232,11 +231,11 @@ for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-d
     }
     assert.match(pair, /Before:[\s\S]*After:/);
     assert.doesNotMatch(pair, /demolition/i, "these photos document hauling, not deck demolition");
-    if (page === "junk-removal-monroe-mi.html") {
-      assert.doesNotMatch(html, /service-photo-placeholder|placeholder-layout-20260828/);
-      assert.match(html, /href="construction-debris-removal">construction debris removal service/);
+    if (page === "service-areas.html") {
+      assert.match(html, /id="monroe-decking-removal"/);
+      assert.match(html, /href="construction-debris-removal"/);
     } else if (page === "construction-debris-removal.html") {
-      assert.match(html, /href="junk-removal-monroe-mi">Monroe junk removal service/);
+      assert.match(html, /href="service-areas#monroe-decking-removal"/);
       for (const existing of ["deck-demolition-before.jpg", "deck-demolition-after.webp", "construction-debris-load.webp", "carpet-drywall-removal-before.webp", "carpet-drywall-removal-after.webp", "outdoor-debris-before.webp", "outdoor-debris-after.webp"]) {
         assert.ok(html.includes(`assets/${existing}`), `preserve the separate project photo: ${existing}`);
       }
@@ -258,7 +257,7 @@ test("Recent Jobs features the Novi cleanouts and preserves the Monroe and Ann A
         "new Novi jobs should precede older projects");
     }
   }
-  assert.match(section, /href="junk-removal-monroe-mi#monroe-decking-removal"/);
+  assert.match(section, /href="service-areas#monroe-decking-removal"/);
   assert.ok(section.indexOf("monroe-decking-removal-before.webp") < section.indexOf("ann-arbor-basement-cleanout-before.webp"));
   for (const image of ["before", "after", "loaded"]) {
     assert.ok(section.includes(`assets/ann-arbor-basement-cleanout-${image}.webp`));

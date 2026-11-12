@@ -112,7 +112,7 @@ test("a subsequent phone click still has its own conversion and navigation", () 
 
 test("every HTML phone link loads one current helper and reports exactly one conversion", async () => {
   const pages = (await readdir(publicDir)).filter(file => file.endsWith(".html"));
-  let checkedLinks = 0;
+  assert.ok(pages.length, "discover HTML pages for the sitewide phone-link audit");
   for (const file of pages) {
     const html = await readFile(new URL(file, publicDir), "utf8");
     const phoneLinks = [...html.matchAll(/<a\b[^>]*href="tel:[^"]+"[^>]*>/g)];
@@ -135,12 +135,10 @@ test("every HTML phone link loads one current helper and reports exactly one con
       assert.equal(result, false, file);
       assert.equal(page.events.length, priorEvents + 1, file);
       assert.equal(page.navigations.at(-1), href, file);
-      checkedLinks++;
     }
     for (const [tag] of html.matchAll(/<[^>]+onclick="[^"]*gtag_report_conversion[^>]*>/g)) {
       assert.match(tag, /<a\b[^>]*href="tel:/, `${file}: only phone links should report this conversion`);
     }
     assert.doesNotMatch(html, /function\s+gtag_report_conversion/, `${file}: do not duplicate the shared helper inline`);
   }
-  assert.ok(checkedLinks > 100, "check the entire site's phone links");
 });

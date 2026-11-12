@@ -4,6 +4,11 @@ const canonicalOrigin = "https://getjunkernauts.com";
 const auditOrigin = new URL(process.argv[2] ?? canonicalOrigin).origin;
 const failures = [];
 let requests = 0;
+const retainedCities = ["ann-arbor", "ypsilanti", "detroit", "canton", "livonia", "novi", "brighton", "dearborn"];
+const retiredCities = ["farmington-hills", "monroe", "pontiac", "port-huron", "rochester-hills", "royal-oak", "saline", "southfield", "sterling-heights", "taylor", "troy", "warren", "westland"];
+const cityRoute = city => `/junk-removal-${city}-mi`;
+const retiredRoutes = new Set(retiredCities.map(cityRoute));
+const pageDocuments = new Map();
 
 function check(condition, message) {
   if (!condition) failures.push(message);
@@ -46,6 +51,8 @@ try {
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => decode(match[1]));
   check(urls.length > 0, "sitemap.xml: no URLs");
   check(new Set(urls).size === urls.length, "sitemap.xml: duplicate URLs");
+  const cityRoutes = urls.map(url => new URL(url).pathname).filter(route => /^\/junk-removal-.+-mi$/.test(route)).sort();
+  check(JSON.stringify(cityRoutes) === JSON.stringify(retainedCities.map(cityRoute).sort()), "sitemap.xml: expected exactly the eight retained city URLs");
   const titles = new Map();
   const descriptions = new Map();
   const images = new Set();
@@ -54,6 +61,7 @@ try {
     check(new URL(canonical).origin === canonicalOrigin, `${canonical}: unexpected sitemap origin`);
     const route = new URL(canonical).pathname;
     const { response, html } = await get(`${auditOrigin}${route}`);
+    pageDocuments.set(route, html);
     check(response.status === 200, `${route}: HTTP ${response.status}`);
     check(/text\/html/.test(response.headers.get("content-type")), `${route}: not HTML`);
     const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] ?? "";
@@ -90,6 +98,28 @@ try {
     }
   });
 
+  const hub = pageDocuments.get("/service-areas") ?? "";
+  const hubIds = [...hub.matchAll(/\bid\s*=\s*(?:"([^"]+)"|'([^']+)')/g)].map(match => match[1] ?? match[2]);
+  for (const id of ["other-communities", "monroe-decking-removal"]) {
+    check(hubIds.filter(value => value === id).length === 1, `service-areas: expected exactly one #${id} destination`);
+  }
+  for (const [route, html] of pageDocuments) {
+    for (const match of html.matchAll(/<a\b[^>]*>/gi)) {
+      const href = attributes(match[0]).href;
+      if (!href) continue;
+      const target = new URL(href, `${canonicalOrigin}${route}`);
+      if (!["getjunkernauts.com", "www.getjunkernauts.com"].includes(target.hostname)) continue;
+      const path = decodeURIComponent(target.pathname).replace(/\/$/, "").replace(/\.html$/, "");
+      check(!retiredRoutes.has(path), `${route}: internal link still targets retired city ${href}`);
+      if (path === "/service-areas" && target.hash) {
+        check(hubIds.includes(decodeURIComponent(target.hash.slice(1))), `${route}: missing service-area destination ${href}`);
+      }
+    }
+  }
+  for (const route of ["/", "/construction-debris-removal"]) {
+    check(/href="\/?service-areas#monroe-decking-removal"/.test(pageDocuments.get(route) ?? ""), `${route}: missing direct link to the moved Monroe project`);
+  }
+
   await parallel([...images], async (url) => {
     const parsed = new URL(url);
     check(parsed.origin === canonicalOrigin, `${url}: social image should use production origin`);
@@ -117,6 +147,15 @@ try {
     const { response } = await get(`${auditOrigin}${source}`);
     check([301, 308].includes(response.status), `${source}: expected permanent redirect, received ${response.status}`);
     check(new URL(response.headers.get("location") ?? source, auditOrigin).href === `${auditOrigin}${destination}`, `${source}: wrong redirect target`);
+  });
+
+  // Do not follow these responses: all retired forms must be one-hop 301s to
+  // the hub. The plain destination also lets browsers retain an incoming hash.
+  const retiredSources = [...retiredRoutes].flatMap(route => [route, `${route}.html`, `${route}/`]);
+  await parallel(retiredSources, async source => {
+    const { response } = await get(`${auditOrigin}${source}`);
+    check(response.status === 301, `${source}: expected direct 301, received ${response.status}`);
+    check(new URL(response.headers.get("location") ?? source, auditOrigin).href === `${auditOrigin}/service-areas`, `${source}: retired city must redirect straight to /service-areas without a fragment`);
   });
 
   const { response: confirmationResponse, html: confirmation } = await get(`${auditOrigin}/confirmation`);
@@ -160,7 +199,7 @@ try {
     });
     console.log("Included synthetic Googlebot user-agent probes; these do not verify access from Googlebot IPs or indexing in Google Search.");
   }
-  console.log(`Audited ${urls.length} sitemap pages, ${images.size} social images, crawl controls, missing routes, redirects, and legacy URLs (${requests} read-only requests) at ${auditOrigin}.`);
+  console.log(`Audited ${urls.length} sitemap pages, ${images.size} social images, ${retiredSources.length} retired city redirects, hub anchors, crawl controls, missing routes, and legacy URLs (${requests} read-only requests) at ${auditOrigin}.`);
 } catch (error) {
   failures.push(error.message);
 }
