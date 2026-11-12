@@ -165,7 +165,11 @@ for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-d
     assert.match(images[1], /src="assets\/monroe-decking-removal-after\.webp"/);
     for (const image of images) {
       assert.match(image, /alt="[^"]*Monroe[^"]*"/);
-      assert.match(image, /width="1600" height="1200" loading="lazy" decoding="async"/);
+      assert.match(image, /width="1600" height="1200"/);
+      const firstVisible = page === "junk-removal-monroe-mi.html" && image === images[0];
+      assert.match(image, new RegExp(`loading="${firstVisible ? "eager" : "lazy"}"`));
+      if (firstVisible) assert.match(image, /fetchpriority="high"/);
+      assert.match(image, /decoding="async"/);
       assert.match(image, /sizes="\(max-width: 720px\) 90vw, 50vw"/);
       const label = image.includes("removal-before.webp") ? "before" : "after";
       assert.ok(image.includes(`srcset="assets/monroe-decking-removal-${label}-800.webp 800w, assets/monroe-decking-removal-${label}.webp 1600w"`));

@@ -23,9 +23,9 @@ function metadata(head, name) {
     .filter((tag) => (tag.name ?? tag.property) === name).map((tag) => tag.content);
 }
 
-async function get(url) {
+async function get(url, headers = {}) {
   requests += 1;
-  const response = await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(20000) });
+  const response = await fetch(url, { headers, redirect: "manual", signal: AbortSignal.timeout(20000) });
   return { response, html: await response.text() };
 }
 
@@ -126,10 +126,39 @@ try {
   check(legacyResponse.status === 410, `comments/feed: expected 410, received ${legacyResponse.status}`);
 
   if (auditOrigin === canonicalOrigin) {
-    await parallel(["http://getjunkernauts.com/", "https://www.getjunkernauts.com/"], async (url) => {
+    const trackedRoute = "/junk-removal-ann-arbor-mi?utm_source=google&utm_medium=organic";
+    const hostRedirects = [
+      ["http://getjunkernauts.com/", "/"],
+      ["https://www.getjunkernauts.com/", "/"],
+      [`http://getjunkernauts.com${trackedRoute}`, trackedRoute],
+      [`https://www.getjunkernauts.com${trackedRoute}`, trackedRoute],
+    ];
+    await parallel(hostRedirects, async ([url, destination]) => {
       const { response } = await get(url);
-      check([301, 308].includes(response.status) && response.headers.get("location") === `${canonicalOrigin}/`, `${url}: missing permanent apex HTTPS redirect`);
+      check([301, 308].includes(response.status), `${url}: missing permanent apex HTTPS redirect`);
+      check(new URL(response.headers.get("location") ?? url, url).href === `${canonicalOrigin}${destination}`, `${url}: apex HTTPS redirect must preserve the path and query`);
     });
+
+    // A synthetic user-agent probe can catch obvious bot-specific blocking. It is
+    // not a request from a verified Googlebot IP or proof of Google's index state.
+    const botHeaders = { "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" };
+    await parallel(["/", "/junk-removal-ann-arbor-mi", "/robots.txt"], async (route) => {
+      const { response, html } = await get(`${auditOrigin}${route}`, botHeaders);
+      const label = `${route} (synthetic Googlebot user-agent)`;
+      check(response.status === 200, `${label}: HTTP ${response.status}`);
+      check(!response.headers.get("cf-mitigated"), `${label}: received a Cloudflare challenge`);
+      if (route === "/robots.txt") {
+        check(html.trim() === robots.trim(), `${label}: robots.txt differs from the ordinary response`);
+        return;
+      }
+      check(/text\/html/.test(response.headers.get("content-type")), `${label}: not HTML`);
+      const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] ?? "";
+      const canonicals = [...head.matchAll(/<link\b[^>]*>/gi)].map((match) => attributes(match[0]))
+        .filter((tag) => tag.rel === "canonical").map((tag) => tag.href);
+      check(canonicals.length === 1 && canonicals[0] === `${canonicalOrigin}${route}`, `${label}: canonical mismatch`);
+      check(!/noindex/i.test(`${metadata(head, "robots").join()} ${response.headers.get("x-robots-tag") ?? ""}`), `${label}: indexable page is noindex`);
+    });
+    console.log("Included synthetic Googlebot user-agent probes; these do not verify access from Googlebot IPs or indexing in Google Search.");
   }
   console.log(`Audited ${urls.length} sitemap pages, ${images.size} social images, crawl controls, missing routes, redirects, and legacy URLs (${requests} read-only requests) at ${auditOrigin}.`);
 } catch (error) {

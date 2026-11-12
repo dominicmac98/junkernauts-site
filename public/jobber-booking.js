@@ -74,8 +74,9 @@
     return;
   }
 
-  // Stagger hidden instances to warm each form without competing with page load.
-  // Each destination starts a fresh form, keeping appointment availability live.
+  // Warm only the form a visitor points to, focuses, or touches. Opening two
+  // hidden booking apps on every page competes with photos and interaction.
+  // Each destination still starts a fresh form so availability stays current.
   const connection = navigator.connection;
   if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || "")) return;
   const started = new Set();
@@ -115,14 +116,4 @@
   document.addEventListener("focusin", onFormIntent);
   document.addEventListener("touchstart", onFormIntent, { passive: true });
 
-  function queueWarmup() {
-    Object.values(forms).forEach((form, index) => {
-      window.setTimeout(() => {
-        if ("requestIdleCallback" in window) window.requestIdleCallback(() => warmForm(form), { timeout: 4000 });
-        else warmForm(form);
-      }, 1500 + index * 2000);
-    });
-  }
-  if (document.readyState === "complete") queueWarmup();
-  else window.addEventListener("load", queueWarmup, { once: true });
 })();

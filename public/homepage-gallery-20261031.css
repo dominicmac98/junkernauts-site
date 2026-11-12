@@ -72,6 +72,9 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  aspect-ratio: 4 / 3;
+  align-items: center;
+  background: #102838;
 }
 
 .home-comparison-media img {
@@ -112,9 +115,14 @@
 }
 
 .home-comparison-nojs-labels {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   padding: 8px;
+  background: #082236;
   color: #e2f4ff;
   font-size: 0.75rem;
 }
@@ -175,6 +183,13 @@
 
 .home-comparison-controls {
   margin-top: auto;
+}
+
+/* Reserve the controls before enhancement so loading JavaScript cannot move
+   the rest of the page. They remain hidden and unfocusable without scripting. */
+.home-gallery-card .home-comparison-controls[hidden] {
+  display: block !important;
+  visibility: hidden;
 }
 
 .home-comparison-buttons {

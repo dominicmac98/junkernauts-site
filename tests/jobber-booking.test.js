@@ -6,7 +6,7 @@ import test from "node:test";
 const source = await readFile(new URL("../public/jobber-booking.js", import.meta.url), "utf8");
 const origin = "https://clienthub.getjobber.com";
 
-function setup({ booking = true, form = "booking", connection = {}, lastWarm, storageBlocked = false } = {}) {
+function setup({ booking = true, form = "booking", connection = {}, lastWarm, storageBlocked = false, readyState = "loading" } = {}) {
   const frames = [];
   const events = {};
   const timers = new Map();
@@ -23,7 +23,7 @@ function setup({ booking = true, form = "booking", connection = {}, lastWarm, st
     referrer: "https://getjunkernauts.com/services",
     title: "Schedule a free quote",
     cookie: "_ga=GA1.1.123.456; other=1",
-    readyState: "loading",
+    readyState,
     visibilityState: "visible",
     addEventListener: listen,
   };
@@ -52,7 +52,7 @@ function setup({ booking = true, form = "booking", connection = {}, lastWarm, st
     }
   }
   const message = data => emit("message", { origin, source: frames[0].contentWindow, data });
-  return { frames, mount, status, link, document, storage, emit, run, message };
+  return { frames, mount, status, link, document, storage, emit, run, message, timers };
 }
 
 test("booking starts immediately without analytics, retaining attribution and a direct fallback", () => {
@@ -86,32 +86,46 @@ test("only this Jobber frame can resize the form; later steps can shrink it", ()
   assert.equal(t.mount.scrolled, true);
 });
 
-test("background warmup waits for page load and idle, and never duplicates the frame", () => {
-  const t = setup({ booking: false });
-  assert.equal(t.frames.length, 0);
-  t.emit("load");
-  t.run(1500);
-  assert.equal(t.frames.length, 0);
-  t.run("idle");
-  assert.equal(t.frames.length, 1);
-  assert.equal(t.frames[0]["aria-hidden"], "true");
-  assert.equal(t.frames[0].tabIndex, -1);
-  assert.equal(new URL(t.frames[0].src).searchParams.get("ga_send_page_view"), "false");
-  t.message("887px");
-  assert.ok(t.storage.has("junkernauts-jobber-warmed-5115979"));
-  t.emit("pointerover", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
-  assert.equal(t.frames.length, 1);
+test("ordinary page loads never open hidden forms, even after load and idle", () => {
+  for (const readyState of ["loading", "complete"]) {
+    const t = setup({ booking: false, readyState });
+    t.emit("load");
+    t.run(1500); t.run(3500); t.run("idle");
+    assert.equal(t.frames.length, 0);
+    assert.equal(t.timers.size, 0);
+  }
 });
 
-test("intent can warm early, while data-saving, slow connections and recent warmups skip it", () => {
-  for (const options of [{ connection: { saveData: true } }, { connection: { effectiveType: "2g" } }, { lastWarm: Date.now() }]) {
+test("pointer, keyboard and touch intent warm only the chosen form once", () => {
+  for (const type of ["pointerover", "focusin", "touchstart"]) {
+    const t = setup({ booking: false });
+    const event = { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } };
+    t.emit(type, event);
+    assert.equal(t.frames.length, 1);
+    assert.equal(t.frames[0]["aria-hidden"], "true");
+    assert.equal(t.frames[0].tabIndex, -1);
+    assert.equal(new URL(t.frames[0].src).searchParams.get("ga_send_page_view"), "false");
+    t.message("887px");
+    assert.ok(t.storage.has("junkernauts-jobber-warmed-5115979"));
+    for (const again of ["pointerover", "focusin", "touchstart"]) t.emit(again, event);
+    assert.equal(t.frames.length, 1);
+  }
+});
+
+test("intent respects data saving, slow connections, recent warmups and document visibility", () => {
+  for (const options of [{ connection: { saveData: true } }, { connection: { effectiveType: "2g" } }, { connection: { effectiveType: "slow-2g" } }, { lastWarm: Date.now() }]) {
     const t = setup({ booking: false, ...options });
-    t.emit("load"); t.run(1500); t.run("idle");
+    t.emit("pointerover", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
     assert.equal(t.frames.length, 0);
   }
   const t = setup({ booking: false, storageBlocked: true });
   t.emit("focusin", { target: { closest: () => ({ href: "https://other.example/booking" }) } });
+  t.emit("focusin", { target: { closest: () => ({ href: "https://getjunkernauts.com/services" }) } });
   assert.equal(t.frames.length, 0);
+  t.document.visibilityState = "hidden";
+  t.emit("focusin", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
+  assert.equal(t.frames.length, 0);
+  t.document.visibilityState = "visible";
   t.emit("focusin", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
   assert.equal(t.frames.length, 1);
   t.message("887px");
@@ -135,18 +149,19 @@ test("Fast Estimate opens its own request form, not the assessment form", () => 
   assert.equal(t.storage.has("junkernauts-jobber-warmed-5115979"), false);
 });
 
-test("both forms warm independently and quote-link intent does not duplicate them", () => {
+test("both forms warm independently and repeated quote intent does not duplicate them", () => {
   const t = setup({ booking: false });
-  t.emit("load"); t.run(1500); t.run("idle");
+  t.emit("pointerover", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
   assert.match(t.frames[0].src, /\/5115979\//);
-  t.emit("focusin", { target: { closest: () => ({ href: "https://getjunkernauts.com/quote" }) } });
+  const quoteIntent = { target: { closest: () => ({ href: "https://getjunkernauts.com/quote" }) } };
+  t.emit("focusin", quoteIntent);
   assert.equal(t.frames.length, 2);
   assert.match(t.frames[1].src, /\/5115980\//);
-  t.run(3500); t.run("idle");
+  t.emit("touchstart", quoteIntent);
   assert.equal(t.frames.length, 2);
   const recentBooking = setup({ booking: false, lastWarm: Date.now() });
-  recentBooking.emit("load"); recentBooking.run(1500); recentBooking.run("idle");
-  recentBooking.run(3500); recentBooking.run("idle");
+  recentBooking.emit("pointerover", { target: { closest: () => ({ href: "https://getjunkernauts.com/booking" }) } });
+  recentBooking.emit("focusin", quoteIntent);
   assert.equal(recentBooking.frames.length, 1);
   assert.match(recentBooking.frames[0].src, /\/5115980\//);
 });

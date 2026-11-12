@@ -35,14 +35,15 @@ function projectFigures(html) {
     .filter(({ image }) => image.src?.startsWith(photoPrefix));
 }
 
-async function assertPhoto(figure, stage, label) {
+async function assertPhoto(figure, stage, label, loading = "lazy") {
   const { image, caption } = figure;
   const full = `${photoPrefix}${stage}.webp`;
   const small = `${photoPrefix}${stage}-800.webp`;
   assert.equal(image.src, full);
   assert.equal(image.width, "1600", full);
   assert.equal(image.height, "1200", full);
-  assert.equal(image.loading, "lazy", full);
+  assert.equal(image.loading, loading, full);
+  if (loading === "eager") assert.equal(image.fetchpriority, "high", full);
   assert.equal(image.decoding, "async", full);
   assert.ok(image.alt?.length > 20, `${full}: describe the actual project photo`);
   assert.match(image.alt, /shed|site|backyard/i, full);
@@ -70,7 +71,7 @@ test("light demolition presents all six South Lyon photos with accurate project 
   const figures = projectFigures(main);
   assert.equal(figures.length, photoStages.length);
   for (const [index, [stage, label]] of photoStages.entries()) {
-    await assertPhoto(figures[index], stage, label);
+    await assertPhoto(figures[index], stage, label, index === 0 ? "eager" : "lazy");
   }
   assert.match(main, /href="quote"/);
   assert.match(main, /href="construction-debris-removal"/);

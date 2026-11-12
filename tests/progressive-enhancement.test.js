@@ -83,7 +83,7 @@ function setupNavigation({ storageBlocked = false, reducedMotion = false, observ
 
 test("blocked theme storage does not stop navigation, theme controls, or booking preloading", () => {
   const page = setupNavigation({ storageBlocked: true });
-  assert.equal(page.head.children[0].src, "jobber-booking.js?v=20260907-quote");
+  assert.equal(page.head.children[0].src, "jobber-booking.js?v=20261112-intent");
   assert.equal(page.head.children[0].async, true);
   page.window.scrollY = 250;
   page.window.emit("scrollend");
