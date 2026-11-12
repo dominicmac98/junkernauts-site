@@ -95,18 +95,32 @@ test("homepage preserves the existing Novi and South Lyon pairs while keeping De
 
 test("all service and location detail layouts load responsive overrides after older layout styles", async () => {
   const files = (await readdir(publicDir)).filter((file) => file.endsWith(".html"));
+  const expectedServices = new Set([
+    "appliance-removal.html", "basement-cleanouts.html", "commercial-junk-removal.html",
+    "construction-debris-removal.html", "estate-cleanouts.html", "furniture-removal.html",
+    "garage-cleanouts.html", "light-demolition.html", "services.html",
+  ]);
+  const actualServices = new Set();
   let count = 0;
   for (const file of files) {
     const html = await readPublic(file);
-    if (!/class="[^"]*\bseo-layout\b/.test(html) && file !== "light-demolition.html") continue;
+    const isService = expectedServices.has(file);
+    if (!/class="[^"]*\bseo-layout\b/.test(html) && !isService) continue;
     count++;
     const head = html.match(/<head>([\s\S]*?)<\/head>/i)?.[1] ?? "";
     const styles = [...head.matchAll(/<link\b[^>]*>/g)].map((match) => attributes(match[0]))
       .filter((link) => link.rel === "stylesheet").map((link) => link.href.split("?")[0]);
-    assert.equal(styles.filter((href) => href === "detail-layout-20261031.css").length, 1, file);
-    // Header- and footer-only styles may follow without changing the content layout cascade.
-    assert.equal(styles.filter((href) => !["headers-compact-20261101.css", "footer-compact-20261101.css"].includes(href)).at(-1),
-      "detail-layout-20261031.css", `${file}: layout overrides load after older styles`);
+    if (isService) {
+      actualServices.add(file);
+      assert.equal(styles.filter((href) => href === "service-detail-layout-20261112.css").length, 1, file);
+      assert.equal(styles.at(-1), "service-detail-layout-20261112.css", `${file}: photo layout overrides load last`);
+    } else {
+      assert.equal(styles.filter((href) => href === "detail-layout-20261031.css").length, 1, file);
+      // Header- and footer-only styles may follow without changing the location content layout.
+      assert.equal(styles.filter((href) => !["headers-compact-20261101.css", "footer-compact-20261101.css"].includes(href)).at(-1),
+        "detail-layout-20261031.css", `${file}: location layout overrides load after older styles`);
+    }
   }
-  assert.ok(count >= 29, "cover the shared detail-page family");
+  assert.deepEqual(actualServices, expectedServices, "cover every service detail page and the Services hub");
+  assert.ok(count >= 29, "cover the complete service and location detail-page family");
 });

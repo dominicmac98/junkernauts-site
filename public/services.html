@@ -157,8 +157,9 @@
   <link rel="stylesheet" href="responsive-shell-20261031.css" />
   <link rel="stylesheet" href="headers-compact-20261101.css?v=20261101-header1" />
   <link rel="stylesheet" href="footer-compact-20261101.css?v=20261101-footer1" />
+  <link rel="stylesheet" href="service-detail-layout-20261112.css?v=2" />
 </head>
-<body>
+<body class="service-detail-page">
   <nav class="site-nav">
     <a class="brand" href="/"><img class="brand-logo" src="assets/junkernauts-logo.webp" alt="Junkernauts Junk Removal" width="260" height="86" style="max-width:48vw;object-fit:contain;display:block;" srcset="assets/junkernauts-logo-180.webp 180w, assets/junkernauts-logo-360.webp 360w, assets/junkernauts-logo.webp 900w" sizes="(max-width: 420px) 82px, (max-width: 680px) 88px, (max-width: 1000px) 106px, 152px" /></a>
     <div class="nav-shell">
@@ -234,44 +235,50 @@
     <strong>Call or text to ask about current cleanup discounts.</strong>
   </a>
 
-  <header class="page-hero">
-    <div class="page-hero-inner reveal">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Junk Removal Services</span></li></ol></nav>
-      <div class="eyebrow">What We Haul</div>
-      <h1>Junk removal for the messy, heavy, awkward stuff.</h1>
-      <p class="page-sub">Junk removal for the messy, heavy, awkward stuff starts here. Point us toward what needs to go; we handle lifting, loading, hauling, and responsible disposal wherever possible.</p>
-    </div>
-  </header>
-
-  <section class="band">
-    <div class="section-inner services-grid">
-      <article class="service-card reveal"><div class="service-icon">01</div><h3>Furniture Removal</h3><p>Couches, mattresses, tables, desks, dressers, recliners, and bulky household items.</p><a class="card-link" href="furniture-removal">Furniture removal -></a></article>
-      <article class="service-card reveal"><div class="service-icon">02</div><h3>Appliance Removal</h3><p>Washers, dryers, refrigerators, freezers, ovens, and other heavy appliances.</p><a class="card-link" href="appliance-removal">Appliance removal -></a></article>
-      <article class="service-card reveal"><div class="service-icon">03</div><h3>Garage Cleanouts</h3><p>Old boxes, tools, shelving, storage clutter, broken equipment, and years of built-up junk.</p><a class="card-link" href="garage-cleanouts">Garage Cleanouts -&gt;</a></article>
-      <article class="service-card reveal"><div class="service-icon">04</div><h3>Basement Cleanouts</h3><p>Furniture, boxes, shelving, and stored household items. See before-and-after photos from our Novi basement cleanout.</p><a class="card-link" href="basement-cleanouts">Basement Cleanouts -&gt;</a></article>
-      <article class="service-card reveal"><div class="service-icon">05</div><h3>Estate &amp; Property Cleanouts</h3><p>Respectful cleanout help for homes, rentals, move-outs, foreclosures, and inherited properties.</p><a class="card-link" href="estate-cleanouts">Estate &amp; Property Cleanouts -&gt;</a></article>
-      <article class="service-card reveal"><div class="service-icon">06</div><h3>Construction Debris</h3><p>Drywall, lumber, flooring, fixtures, scrap material, and renovation debris.</p><a class="card-link" href="construction-debris-removal">Construction Debris -&gt;</a></article>
-      <article class="service-card reveal"><div class="service-icon">07</div><h3>Commercial Junk Removal</h3><p>Office furniture, retail displays, warehouse clutter, tenant cleanouts, and business debris.</p><a class="card-link" href="commercial-junk-removal">Commercial Junk Removal -&gt;</a></article>
-      <article class="service-card reveal"><div class="service-icon">08</div><h3>Light Demolition</h3><p>Shed cleanouts, dismantling, loading, and disposal. See our backyard shed removal project in South Lyon.</p><a class="card-link" href="light-demolition">Light Demolition -&gt;</a></article>
-    </div>
-  </section>
-
-  <section class="demo-project" id="light-demolition" aria-labelledby="demo-services-heading">
-    <div class="section-inner">
-      <div class="section-head">
+  <main class="service-detail-main">
+    <header class="service-detail-hero">
+      <img class="service-detail-hero-image" src="assets/garage-cleanout-after.webp" srcset="assets/garage-cleanout-after-800.webp 800w, assets/garage-cleanout-after.webp 2048w" sizes="100vw" alt="Open garage floor after a Junkernauts Junk Removal cleanout" width="2048" height="1536" loading="eager" fetchpriority="high" decoding="async" />
+      <div class="service-detail-wrap">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Junk Removal Services</span></li></ol></nav>
+        <div class="service-detail-hero-copy">
+          <span class="service-detail-kicker">Southeast Michigan</span>
+          <h1>Junk Removal <span>&amp; Cleanout Services</span></h1>
+          <p>Junk removal, cleanouts, and light demolition. Point out what goes; Junkernauts Junk Removal handles the heavy work.</p>
+          <div class="service-detail-actions"><a class="btn btn-primary" href="quote">Get a Free Estimate</a><a class="btn btn-outline" href="tel:+17344808190" onclick="return gtag_report_conversion(this.href);">Call 734-480-8190</a></div>
+        </div>
+        <p class="service-detail-photo-note">Our work: garage cleanout</p>
+      </div>
+    </header>
+    <div class="service-detail-benefits"><ul class="service-detail-wrap"><li>Homes &amp; businesses</li><li>Lifting &amp; loading included</li><li>Price approved before loading</li></ul></div>
+    <section class="service-detail-wrap service-detail-section" aria-labelledby="services-heading">
+      <div class="service-detail-section-heading"><div><span class="service-detail-kicker">What we haul</span><h2 id="services-heading">Find the help you need</h2></div><p>One item, one room, or a larger cleanout.</p></div>
+      <div class="service-detail-catalog">
+        <article><h3>Furniture Removal</h3><p>Couches, mattresses, tables, desks, dressers, recliners, and bulky household items.</p><a class="card-link" href="furniture-removal">Furniture removal &rarr;</a></article>
+        <article><h3>Appliance Removal</h3><p>Washers, dryers, refrigerators, freezers, ovens, and other heavy appliances.</p><a class="card-link" href="appliance-removal">Appliance removal &rarr;</a></article>
+        <article><h3>Garage Cleanouts</h3><p>Old boxes, tools, shelving, storage clutter, broken equipment, and years of built-up junk.</p><a class="card-link" href="garage-cleanouts">Garage Cleanouts &rarr;</a></article>
+        <article><h3>Basement Cleanouts</h3><p>Furniture, boxes, shelving, and stored household items.</p><a class="card-link" href="basement-cleanouts">Basement Cleanouts &rarr;</a></article>
+        <article><h3>Estate &amp; Property Cleanouts</h3><p>Respectful cleanout help for homes, rentals, move-outs, foreclosures, and inherited properties.</p><a class="card-link" href="estate-cleanouts">Estate &amp; Property Cleanouts &rarr;</a></article>
+        <article><h3>Construction Debris</h3><p>Drywall, lumber, flooring, fixtures, scrap material, and renovation debris.</p><a class="card-link" href="construction-debris-removal">Construction Debris &rarr;</a></article>
+        <article><h3>Commercial Junk Removal</h3><p>Office furniture, retail displays, warehouse clutter, tenant cleanouts, and business debris.</p><a class="card-link" href="commercial-junk-removal">Commercial Junk Removal &rarr;</a></article>
+        <article><h3>Light Demolition</h3><p>Shed cleanouts, dismantling, loading, and disposal.</p><a class="card-link" href="light-demolition">Light Demolition &rarr;</a></article>
+      </div>
+    </section>
+  <section class="service-detail-section service-detail-project" id="light-demolition" aria-labelledby="demo-services-heading">
+    <div class="service-detail-wrap">
+      <div class="service-detail-section-heading">
         <div>
-          <div class="section-tag">Light Demolition</div>
-          <h2 class="section-title" id="demo-services-heading">Shed removal in South Lyon, from start to finish.</h2>
-          <p class="section-sub">For this backyard project in South Lyon, Michigan, we emptied the shed, dismantled the structure, and hauled away the contents and demolition material for disposal. These are photos from the actual job.</p>
+          <div class="service-detail-kicker">Light Demolition</div>
+          <h2  id="demo-services-heading">Shed Removal in South Lyon</h2>
+          <p >We emptied the shed, dismantled it, and hauled away the contents and demolition material.</p>
         </div>
       </div>
       <div class="demo-photo-grid">
         <figure class="demo-photo-card">
-          <img src="assets/south-lyon-shed-demolition-before.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 700px) 90vw, (max-width: 1280px) 44vw, 560px" width="1600" height="1200" alt="Backyard shed in South Lyon before demolition" loading="lazy" decoding="async" />
+          <img src="assets/south-lyon-shed-demolition-before.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 1565px) 44vw, 708px" width="1600" height="1200" alt="Backyard shed in South Lyon before demolition" loading="lazy" decoding="async" />
           <figcaption><strong>Before</strong> The shed before dismantling.</figcaption>
         </figure>
         <figure class="demo-photo-card">
-          <img src="assets/south-lyon-shed-demolition-after.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 700px) 90vw, (max-width: 1280px) 44vw, 560px" width="1600" height="1200" alt="South Lyon backyard after the shed was demolished and its material hauled away" loading="lazy" decoding="async" />
+          <img src="assets/south-lyon-shed-demolition-after.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 1565px) 44vw, 708px" width="1600" height="1200" alt="South Lyon backyard after the shed was demolished and its material hauled away" loading="lazy" decoding="async" />
           <figcaption><strong>After</strong> The shed removed and its footprint cleared.</figcaption>
         </figure>
       </div>
@@ -281,52 +288,9 @@
       </div>
     </div>
   </section>
-
-  <section>
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <div>
-          <div class="section-tag">Service Areas</div>
-          <h2 class="section-title">Junk removal near you.</h2>
-          <p class="section-sub">We serve homes, rentals, cleanouts, and businesses across Southeast Michigan.</p>
-        </div>
-      </div>
-      <div class="nearby-links area-links reveal">
-        <a href="junk-removal-detroit-mi">Detroit</a>
-        <a href="junk-removal-ann-arbor-mi">Ann Arbor</a>
-        <a href="junk-removal-warren-mi">Warren</a>
-        <a href="junk-removal-sterling-heights-mi">Sterling Heights</a>
-        <a href="junk-removal-dearborn-mi">Dearborn</a>
-        <a href="junk-removal-livonia-mi">Livonia</a>
-        <a href="junk-removal-troy-mi">Troy</a>
-        <a href="junk-removal-westland-mi">Westland</a>
-        <a href="junk-removal-farmington-hills-mi">Farmington Hills</a>
-        <a href="junk-removal-southfield-mi">Southfield</a>
-        <a href="junk-removal-rochester-hills-mi">Rochester Hills</a>
-        <a href="junk-removal-taylor-mi">Taylor</a>
-        <a href="junk-removal-royal-oak-mi">Royal Oak</a>
-        <a href="junk-removal-novi-mi">Novi</a>
-        <a href="junk-removal-pontiac-mi">Pontiac</a>
-        <a href="junk-removal-canton-mi">Canton</a>
-        <a href="junk-removal-ypsilanti-mi">Ypsilanti</a>
-        <a href="junk-removal-monroe-mi">Monroe</a>
-        <a href="junk-removal-brighton-mi">Brighton</a>
-        <a href="junk-removal-port-huron-mi">Port Huron</a>
-        <span class="area-more">And more!</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="mini-contact">
-    <div class="section-inner section-head">
-      <div class="reveal">
-        <div class="section-tag">Next Step</div>
-        <h2 class="section-title">Not sure what category it fits?</h2>
-        <p class="section-sub">Send a photo or short description. We will tell you what can be hauled and how to price it.</p>
-      </div>
-      <a class="btn btn-blue reveal" href="pricing">Check Pricing</a>
-    </div>
-  </section>
+    <div class="service-detail-wrap service-detail-areas"><p>Serving Southeast Michigan homes and businesses. <a href="service-areas">Check your service area</a> or explore our <a href="pricing">pickup pricing</a>.</p></div>
+    <section class="service-detail-cta" aria-labelledby="services-cta-heading"><div class="service-detail-wrap"><div><h2 id="services-cta-heading">Not sure where to start?</h2><p>Send a photo or a short description. We&rsquo;ll help plan your pickup.</p></div><div class="service-detail-actions"><a class="btn btn-primary" href="quote">Get a Free Estimate</a><a class="btn btn-outline" href="tel:+17344808190" onclick="return gtag_report_conversion(this.href);">Call 734-480-8190</a></div></div></section>
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">

@@ -68,10 +68,15 @@ test("light demolition presents all six South Lyon photos with accurate project 
   assert.match(copy, /removed[^.]*inside the shed|emptied the shed|cleared[^.]*contents/i);
   assert.match(copy, /demolished the structure|dismantled the structure/i);
   assert.match(copy, /hauled away[^.]*material for disposal/i);
+  const hero = main.match(/<header\b[^>]*class="service-detail-hero"[^>]*>([\s\S]*?)<\/header>/)?.[1] ?? "";
+  const heroImage = attributes(hero.match(/<img\b[^>]*>/)?.[0] ?? "");
+  assert.equal(heroImage.src, `${photoPrefix}before.webp`);
+  assert.equal(heroImage.loading, "eager");
+  assert.equal(heroImage.fetchpriority, "high");
   const figures = projectFigures(main);
   assert.equal(figures.length, photoStages.length);
   for (const [index, [stage, label]] of photoStages.entries()) {
-    await assertPhoto(figures[index], stage, label, index === 0 ? "eager" : "lazy");
+    await assertPhoto(figures[index], stage, label);
   }
   assert.match(main, /href="quote"/);
   assert.match(main, /href="construction-debris-removal"/);

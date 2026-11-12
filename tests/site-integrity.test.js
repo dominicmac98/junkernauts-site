@@ -54,8 +54,6 @@ test("the Junkernauts repo contains no Pure Mitten branding", async () => {
 
 test("generic service-area pages use branded placeholders instead of unrelated job photos", async () => {
   const pages = [
-    "appliance-removal.html",
-    "commercial-junk-removal.html",
     "junk-removal-canton-mi.html",
     "junk-removal-dearborn-mi.html",
     "junk-removal-farmington-hills-mi.html",
@@ -82,38 +80,86 @@ test("generic service-area pages use branded placeholders instead of unrelated j
   }
 });
 
-test("garage cleanouts shows the supplied matched before and after job photos", async () => {
-  const html = await readFile(path.join(publicDir, "garage-cleanouts.html"), "utf8");
-  const comparisonIndex = html.indexOf("job-comparison-intro");
-  const firstHeadingIndex = html.indexOf("<h2>");
+function imageAttributes(tag) {
+  return Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)]
+    .map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]));
+}
 
-  assert.ok(comparisonIndex > 0 && comparisonIndex < firstHeadingIndex);
-  assert.match(html, /assets\/garage-cleanout-before\.webp/);
-  assert.match(html, /assets\/garage-cleanout-after\.webp/);
-  assert.match(html.slice(comparisonIndex, firstHeadingIndex), /Before:[\s\S]*After:/);
-});
+const serviceHeroAssets = {
+  "furniture-removal.html": "novi-sectional-removal-before.webp",
+  "appliance-removal.html": "junkernauts-hauling-truck.webp",
+  "garage-cleanouts.html": "garage-cleanout-before.webp",
+  "basement-cleanouts.html": "novi-basement-cleanout-before.webp",
+  "estate-cleanouts.html": "novi-sectional-removal-before.webp",
+  "construction-debris-removal.html": "monroe-decking-removal-before.webp",
+  "commercial-junk-removal.html": "junkernauts-hauling-truck.webp",
+  "light-demolition.html": "south-lyon-shed-demolition-before.webp",
+};
 
-test("real job pages lead with their before and after photos", async () => {
-  const pages = [
-    "basement-cleanouts.html",
-    "construction-debris-removal.html",
-    "junk-removal-ann-arbor-mi.html",
-  ];
-
-  for (const page of pages) {
+for (const [page, heroAsset] of Object.entries(serviceHeroAssets)) {
+  test(`${page} leads with an accessible real-photo banner and a single main heading`, async () => {
     const html = await readFile(path.join(publicDir, page), "utf8");
-    const introIndex = html.indexOf("job-comparison-intro");
-    const firstHeadingIndex = html.indexOf("<h2>");
-    const lowerPhotoIndex = html.lastIndexOf('class="seo-photo');
+    const mains = [...html.matchAll(/<main\b[^>]*>([\s\S]*?)<\/main>/gi)];
+    assert.equal(mains.length, 1, page);
+    const main = mains[0][1];
+    assert.equal([...html.matchAll(/<h1\b/g)].length, 1, page);
+    const hero = main.match(/<header\b[^>]*class="[^"]*\bservice-detail-hero\b[^"]*"[^>]*>([\s\S]*?)<\/header>/)?.[1];
+    assert.ok(hero, `${page}: show a static photo banner`);
+    assert.match(hero, /<h1\b[^>]*>[\s\S]*?\S[\s\S]*?<\/h1>/);
+    const images = [...main.matchAll(/<img\b[^>]*>/g)].map((match) => imageAttributes(match[0]));
+    const banner = imageAttributes(hero.match(/<img\b[^>]*>/)?.[0] ?? "");
+    assert.equal(banner.src, `assets/${heroAsset}`);
+    assert.equal(images[0].src, banner.src, "the real photo is the first image in main content");
+    assert.equal(banner.loading, "eager");
+    assert.equal(banner.fetchpriority, "high");
+    assert.equal(banner.decoding, "async");
+    assert.ok(Number(banner.width) > 0 && Number(banner.height) > 0);
+    assert.ok(banner.alt?.length > 20, "describe the real photo");
+    assert.equal(images.filter((image) => image.fetchpriority === "high").length, 1);
+    await access(path.join(publicDir, banner.src));
+    assert.match(hero, /href="quote"/);
+    assert.match(hero, /href="tel:\+17344808190"/);
+    assert.doesNotMatch(main, /class="[^"]*\b(?:seo-layout|seo-side|page-hero)\b/);
+    assert.doesNotMatch(main, /service-photo-placeholder/);
+  });
+}
 
-    assert.match(html, /real-job-photo-order-20260828\.css/, page);
-    assert.ok(introIndex > 0 && introIndex < firstHeadingIndex, `${page} should show the comparison first`);
-    assert.ok(lowerPhotoIndex > firstHeadingIndex, `${page} should move the single photo below the page copy`);
-    assert.match(html.slice(introIndex, firstHeadingIndex), /Before:[\s\S]*After:/, page);
-  }
+for (const [page, pairClass, prefix, width, height] of [
+  ["garage-cleanouts.html", "job-comparison-intro", "garage-cleanout", "2048", "1536"],
+  ["basement-cleanouts.html", "novi-basement-comparison", "novi-basement-cleanout", "1600", "1200"],
+]) {
+  test(`${page} preserves its matched before-and-after gallery below the photo banner`, async () => {
+    const html = await readFile(path.join(publicDir, page), "utf8");
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const pair = main.match(new RegExp(`<div\\b[^>]*class="[^"]*\\b${pairClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/div>`))?.[1];
+    assert.ok(pair, "keep the two job photos together");
+    assert.ok(main.indexOf(pair) > main.indexOf("</header>"));
+    assert.match(pair, /Before:[\s\S]*After:/);
+    const images = [...pair.matchAll(/<img\b[^>]*>/g)].map((match) => imageAttributes(match[0]));
+    assert.equal(images.length, 2);
+    for (const [index, stage] of ["before", "after"].entries()) {
+      const image = images[index];
+      assert.equal(image.src, `assets/${prefix}-${stage}.webp`);
+      assert.equal(image.width, width);
+      assert.equal(image.height, height);
+      assert.equal(image.loading, "lazy");
+      assert.equal(image.decoding, "async");
+      assert.ok(image.alt?.length > 20);
+      assert.ok(image.sizes?.trim());
+      assert.ok(image.srcset?.includes(`assets/${prefix}-${stage}-800.webp 800w`));
+    }
+  });
+}
 
-  const construction = await readFile(path.join(publicDir, "construction-debris-removal.html"), "utf8");
-  assert.match(construction, /photo-grid deck-demo-grid job-comparison-intro/);
+test("the Ann Arbor location page keeps its existing photo-first layout", async () => {
+  const html = await readFile(path.join(publicDir, "junk-removal-ann-arbor-mi.html"), "utf8");
+  const introIndex = html.indexOf("job-comparison-intro");
+  const firstHeadingIndex = html.indexOf("<h2>");
+  const lowerPhotoIndex = html.lastIndexOf('class="seo-photo');
+  assert.match(html, /real-job-photo-order-20260828\.css/);
+  assert.ok(introIndex > 0 && introIndex < firstHeadingIndex);
+  assert.ok(lowerPhotoIndex > firstHeadingIndex);
+  assert.match(html.slice(introIndex, firstHeadingIndex), /Before:[\s\S]*After:/);
 });
 
 test("furniture removal includes a distinct curbside pickup before and after", async () => {
@@ -170,7 +216,9 @@ for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-d
       assert.match(image, new RegExp(`loading="${firstVisible ? "eager" : "lazy"}"`));
       if (firstVisible) assert.match(image, /fetchpriority="high"/);
       assert.match(image, /decoding="async"/);
-      assert.match(image, /sizes="\(max-width: 720px\) 90vw, 50vw"/);
+      assert.equal(imageAttributes(image).sizes, page === "construction-debris-removal.html"
+        ? "(max-width: 1565px) 44vw, 708px" : "(max-width: 720px) 90vw, 50vw",
+      "responsive photo sizes match the service or location gallery layout");
       const label = image.includes("removal-before.webp") ? "before" : "after";
       assert.ok(image.includes(`srcset="assets/monroe-decking-removal-${label}-800.webp 800w, assets/monroe-decking-removal-${label}.webp 1600w"`));
       await access(path.join(publicDir, `assets/monroe-decking-removal-${label}-800.webp`));
@@ -273,8 +321,13 @@ test("commercial junk removal is linked from the service hub and sitemap", async
 
   assert.match(commercial, /<title>Commercial Junk Removal \| Junkernauts Junk Removal<\/title>/);
   assert.match(commercial, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
-  assert.match(commercial, /service-photo-placeholder/);
-  assert.match(services, /href="commercial-junk-removal">Commercial Junk Removal -&gt;<\/a>/);
+  assert.match(commercial, /src="assets\/junkernauts-hauling-truck\.webp"/);
+  assert.doesNotMatch(commercial, /service-photo-placeholder/);
+  const hubMain = services.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+  const serviceLinks = [...hubMain.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)];
+  assert.ok(serviceLinks.some((match) => imageAttributes(match[1]).href === "commercial-junk-removal"
+    && /^Commercial Junk Removal\b/.test(match[2].replace(/<[^>]*>/g, "").trim())),
+  "link from the service catalog with a descriptive label");
   assert.match(sitemap, /https:\/\/getjunkernauts\.com\/commercial-junk-removal/);
 
   for (const htmlPath of htmlFiles) {
