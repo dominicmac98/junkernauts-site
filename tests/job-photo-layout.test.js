@@ -34,7 +34,7 @@ for (const file of ["junk-removal-detroit-mi.html", "construction-debris-removal
       assert.equal(image.width, "1600");
       assert.equal(image.height, "1200");
       assert.equal(image.decoding, "async");
-      assert.equal(image.loading, file.startsWith("junk-removal-detroit") ? "eager" : "lazy");
+      assert.equal(image.loading, "lazy");
       assert.match(image.alt, /Detroit/);
       assert.match(image.alt, /blocks|branches/);
       assert.ok(image.sizes?.trim());
@@ -48,8 +48,7 @@ for (const file of ["junk-removal-detroit-mi.html", "construction-debris-removal
     }
     if (file.startsWith("junk-removal-detroit")) {
       assert.doesNotMatch(main, /service-photo-placeholder/);
-      assert.ok(main.indexOf("detroit-cleanup-comparison") < main.indexOf("<h2"));
-      assert.equal(images[0].fetchpriority, "high");
+      assert.ok(main.indexOf("detroit-cleanup-comparison") > main.indexOf("</header>"));
       assert.match(main, /href="construction-debris-removal#detroit-debris-cleanup"/);
     } else {
       assert.match(main, /href="junk-removal-detroit-mi#detroit-debris-cleanup"/);
@@ -93,34 +92,21 @@ test("homepage preserves the existing Novi and South Lyon pairs while keeping De
   ]) assert.ok(html.includes(`src="assets/${asset}"`), `preserve ${asset}`);
 });
 
-test("all service and location detail layouts load responsive overrides after older layout styles", async () => {
+test("all service and city pages load the shared photo layout after older styles", async () => {
   const files = (await readdir(publicDir)).filter((file) => file.endsWith(".html"));
-  const expectedServices = new Set([
+  const services = new Set([
     "appliance-removal.html", "basement-cleanouts.html", "commercial-junk-removal.html",
     "construction-debris-removal.html", "estate-cleanouts.html", "furniture-removal.html",
     "garage-cleanouts.html", "light-demolition.html", "services.html",
   ]);
-  const actualServices = new Set();
-  let count = 0;
-  for (const file of files) {
+  const cities = files.filter(file => /^junk-removal-.+-mi\.html$/.test(file));
+  assert.ok(cities.length >= 21, "cover all city pages");
+  for (const file of [...services, ...cities]) {
     const html = await readPublic(file);
-    const isService = expectedServices.has(file);
-    if (!/class="[^"]*\bseo-layout\b/.test(html) && !isService) continue;
-    count++;
     const head = html.match(/<head>([\s\S]*?)<\/head>/i)?.[1] ?? "";
     const styles = [...head.matchAll(/<link\b[^>]*>/g)].map((match) => attributes(match[0]))
       .filter((link) => link.rel === "stylesheet").map((link) => link.href.split("?")[0]);
-    if (isService) {
-      actualServices.add(file);
-      assert.equal(styles.filter((href) => href === "service-detail-layout-20261112.css").length, 1, file);
-      assert.equal(styles.at(-1), "service-detail-layout-20261112.css", `${file}: photo layout overrides load last`);
-    } else {
-      assert.equal(styles.filter((href) => href === "detail-layout-20261031.css").length, 1, file);
-      // Header- and footer-only styles may follow without changing the location content layout.
-      assert.equal(styles.filter((href) => !["headers-compact-20261101.css", "footer-compact-20261101.css"].includes(href)).at(-1),
-        "detail-layout-20261031.css", `${file}: location layout overrides load after older styles`);
-    }
+    assert.equal(styles.filter(href => href === "service-detail-layout-20261112.css").length, 1, file);
+    assert.equal(styles.at(-1), "service-detail-layout-20261112.css", `${file}: photo layout overrides load last`);
   }
-  assert.deepEqual(actualServices, expectedServices, "cover every service detail page and the Services hub");
-  assert.ok(count >= 29, "cover the complete service and location detail-page family");
 });

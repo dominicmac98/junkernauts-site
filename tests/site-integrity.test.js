@@ -52,33 +52,38 @@ test("the Junkernauts repo contains no Pure Mitten branding", async () => {
   assert.deepEqual(matches, []);
 });
 
-test("generic service-area pages use branded placeholders instead of unrelated job photos", async () => {
-  const pages = [
-    "junk-removal-canton-mi.html",
-    "junk-removal-dearborn-mi.html",
-    "junk-removal-farmington-hills-mi.html",
-    "junk-removal-livonia-mi.html",
-    "junk-removal-pontiac-mi.html",
-    "junk-removal-port-huron-mi.html",
-    "junk-removal-rochester-hills-mi.html",
-    "junk-removal-royal-oak-mi.html",
-    "junk-removal-saline-mi.html",
-    "junk-removal-southfield-mi.html",
-    "junk-removal-sterling-heights-mi.html",
-    "junk-removal-taylor-mi.html",
-    "junk-removal-troy-mi.html",
-    "junk-removal-warren-mi.html",
-    "junk-removal-westland-mi.html",
-    "junk-removal-ypsilanti-mi.html",
-  ];
+const localCityHeroes = {
+  "ann-arbor": "ann-arbor-basement-cleanout-before.webp",
+  "brighton": "patio-cleanout-before.webp",
+  "detroit": "detroit-construction-yard-cleanup-before.webp",
+  "monroe": "monroe-decking-removal-before.webp",
+  "novi": "novi-basement-cleanout-before.webp",
+};
 
-  for (const page of pages) {
+for (const page of (await readdir(publicDir)).filter((file) => /^junk-removal-.+-mi\.html$/.test(file))) {
+  test(`${page} uses a local job photo or the company truck in its banner`, async () => {
     const html = await readFile(path.join(publicDir, page), "utf8");
-    assert.match(html, /service-photo-placeholder/, page);
-    assert.match(html, /assets\/junkernauts-icon-512-optimized\.webp/, page);
-    assert.doesNotMatch(html, /<div class="photo-grid">/, page);
-  }
-});
+    const city = page.replace(/^junk-removal-/, "").replace(/-mi\.html$/, "");
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const hero = main.match(/<header\b[^>]*class="[^"]*\bservice-detail-hero\b[^"]*"[^>]*>([\s\S]*?)<\/header>/)?.[1] ?? "";
+    const image = imageAttributes(hero.match(/<img\b[^>]*>/)?.[0] ?? "");
+    assert.equal(image.src, `assets/${localCityHeroes[city] ?? "junkernauts-hauling-truck.webp"}`);
+    assert.equal(image.loading, "eager");
+    assert.equal(image.fetchpriority, "high");
+    assert.equal(image.decoding, "async");
+    assert.ok(image.alt?.length > 20);
+    assert.ok(Number(image.width) > 0 && Number(image.height) > 0);
+    await access(path.join(publicDir, image.src));
+    assert.equal([...main.matchAll(/fetchpriority="high"/g)].length, 1);
+    assert.match(hero, /href="quote"/);
+    assert.match(hero, /href="tel:\+17344808190"/);
+    assert.doesNotMatch(main, /service-photo-placeholder|class="[^"]*\bseo-layout\b/);
+    if (!localCityHeroes[city]) {
+      assert.match(hero, /Our hauling truck/i, "identify the company truck without inventing a local job");
+      assert.match(image.alt, /truck/i);
+    }
+  });
+}
 
 function imageAttributes(tag) {
   return Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)]
@@ -151,15 +156,19 @@ for (const [page, pairClass, prefix, width, height] of [
   });
 }
 
-test("the Ann Arbor location page keeps its existing photo-first layout", async () => {
+test("Ann Arbor preserves its matched basement cleanout photos below the banner", async () => {
   const html = await readFile(path.join(publicDir, "junk-removal-ann-arbor-mi.html"), "utf8");
-  const introIndex = html.indexOf("job-comparison-intro");
-  const firstHeadingIndex = html.indexOf("<h2>");
-  const lowerPhotoIndex = html.lastIndexOf('class="seo-photo');
-  assert.match(html, /real-job-photo-order-20260828\.css/);
-  assert.ok(introIndex > 0 && introIndex < firstHeadingIndex);
-  assert.ok(lowerPhotoIndex > firstHeadingIndex);
-  assert.match(html.slice(introIndex, firstHeadingIndex), /Before:[\s\S]*After:/);
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+  const pair = main.match(/<div\b[^>]*class="[^"]*\bjob-comparison-intro\b[^"]*"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
+  const images = [...pair.matchAll(/<img\b[^>]*>/g)].map(match => imageAttributes(match[0]));
+  assert.deepEqual(images.map(image => image.src), ["assets/ann-arbor-basement-cleanout-before.webp", "assets/ann-arbor-basement-cleanout-after.webp"]);
+  assert.match(pair, /Before:[\s\S]*After:/);
+  for (const image of images) {
+    assert.equal(image.loading, "lazy");
+    assert.equal(image.width, "1280");
+    assert.equal(image.height, "960");
+    assert.match(image.alt, /Ann Arbor/);
+  }
 });
 
 test("furniture removal includes a distinct curbside pickup before and after", async () => {
@@ -212,12 +221,10 @@ for (const page of ["index.html", "junk-removal-monroe-mi.html", "construction-d
     for (const image of images) {
       assert.match(image, /alt="[^"]*Monroe[^"]*"/);
       assert.match(image, /width="1600" height="1200"/);
-      const firstVisible = page === "junk-removal-monroe-mi.html" && image === images[0];
-      assert.match(image, new RegExp(`loading="${firstVisible ? "eager" : "lazy"}"`));
-      if (firstVisible) assert.match(image, /fetchpriority="high"/);
+      assert.equal(imageAttributes(image).loading, "lazy");
       assert.match(image, /decoding="async"/);
-      assert.equal(imageAttributes(image).sizes, page === "construction-debris-removal.html"
-        ? "(max-width: 1565px) 44vw, 708px" : "(max-width: 720px) 90vw, 50vw",
+      assert.equal(imageAttributes(image).sizes, page === "index.html"
+        ? "(max-width: 720px) 90vw, 50vw" : "(max-width: 1565px) 44vw, 708px",
       "responsive photo sizes match the service or location gallery layout");
       const label = image.includes("removal-before.webp") ? "before" : "after";
       assert.ok(image.includes(`srcset="assets/monroe-decking-removal-${label}-800.webp 800w, assets/monroe-decking-removal-${label}.webp 1600w"`));
