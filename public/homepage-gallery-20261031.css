@@ -356,6 +356,8 @@
   .home-gallery-card p { line-height: 1.5; margin-bottom: 14px; }
   .home-gallery-card .home-comparison-autoplay { font-size: .75rem; }
   .home-page > section { padding-block: 38px; }
+  /* Clip decoration without allowing focused review controls to scroll the section internally. */
+  .home-page .reviews-section { overflow: clip; }
   .home-page .section-head { margin-bottom: 24px; }
   .home-page .section-head .btn { margin-top: 16px; }
   .home-page .home-project-grid { margin-top: 24px; }
