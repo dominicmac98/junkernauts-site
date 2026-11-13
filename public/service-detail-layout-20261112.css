@@ -95,24 +95,28 @@ body.service-detail-page.night-mode .service-detail-main section.service-detail-
 }
 @media (max-width: 600px) {
   .service-detail-wrap { width: 90%; }
-  .service-detail-hero { display: flex; flex-direction: column; }
-  .service-detail-hero-image { position: static; order: 0; height: auto; aspect-ratio: 16 / 9; object-position: center 60%; }
-  .service-detail-hero::before { display: none; }
-  .service-detail-hero .service-detail-wrap { order: 1; min-height: 0; padding-block: 20px 24px; }
+  /* One continuous photo banner: keep a clear view above the readable copy. */
+  .service-detail-hero { display: block; }
+  .service-detail-hero-image { position: absolute; inset: 0; height: clamp(270px, 76vw, 320px); aspect-ratio: auto; object-position: center 72%; }
+  .service-detail-hero::before { display: block; bottom: auto; height: clamp(270px, 76vw, 320px); background: linear-gradient(180deg, rgba(9,44,72,.03) 0%, rgba(9,44,72,.05) 55%, rgba(9,44,72,.94) 64%, #092c48 82%); }
+  .service-detail-hero .service-detail-wrap { min-height: 0; padding-block: 205px 24px; }
   .service-detail-hero .breadcrumbs { margin-bottom: 18px; font-size: .72rem; }
   .service-detail-hero h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
   .service-detail-hero p { font-size: .93rem; }
-  .service-detail-photo-note { display: none; }
-  .service-detail-actions { gap: 10px; }
-  .service-detail-actions .btn { flex: 1 1 135px; padding: 12px 14px; font-size: .86rem; }
+  .service-detail-hero .service-detail-photo-note { position: static; display: inline-block; max-width: 100%; margin: 16px 0 0 !important; font-size: .72rem !important; padding: 5px 8px; }
+  .service-detail-actions { gap: 10px; align-items: stretch; }
+  .service-detail-actions .btn { flex: 1 1 135px; min-height: 44px; padding: 12px 14px; font-size: .86rem; }
   .service-detail-benefits ul { gap: 10px 16px; padding-block: 16px; font-size: .8rem; }
   .service-detail-section { padding-block: 34px; }
   .service-detail-intro { grid-template-columns: 1fr; gap: 28px; }
   .service-detail-work-photo img { height: 240px; }
-  .service-detail-items { gap: 0 18px; }
-  .service-detail-items li { font-size: .9rem; }
-  .service-detail-main .photo-grid { gap: 12px; }
-  .service-detail-main .photo-card p { font-size: .78rem; }
+  .service-detail-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+  .service-detail-items li { min-width: 0; font-size: .9rem; }
+  .service-detail-items li > a { display: flex; align-items: center; min-height: 44px; margin-block: -12px; padding-block: 12px; }
+  .service-detail-main .nearby-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .service-detail-main .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .service-detail-main .photo-card { min-width: 0; }
+  .service-detail-main .photo-card p { font-size: .85rem; }
   .service-detail-steps { grid-template-columns: 1fr; gap: 20px; }
   .service-detail-steps li { position: relative; padding-left: 42px; }
   .service-detail-steps li::before { position: absolute; left: 0; top: -5px; }
@@ -143,5 +147,13 @@ body.service-detail-page.night-mode .demo-photo-card figcaption { padding: 12px 
 .service-detail-catalog a { font-size: .9rem; font-weight: 700; }
 .service-detail-main .demo-project-actions { margin-top: 24px; }
 @media(max-width: 900px) { .service-detail-catalog { grid-template-columns: 1fr 1fr; } }
-@media(max-width: 600px) { .service-detail-main .demo-photo-grid { gap: 12px; } }
+@media(max-width: 600px) {
+  .service-detail-main .demo-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .service-detail-main .demo-photo-card { min-width: 0; }
+}
+/* Keep each real job photo large enough to inspect on narrow phones. */
+@media(max-width: 480px) {
+  .service-detail-main .photo-grid,
+  .service-detail-main .demo-photo-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
 @media(max-width: 420px) { .service-detail-catalog { grid-template-columns: 1fr; gap: 22px; } }

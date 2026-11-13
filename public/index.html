@@ -354,11 +354,12 @@
   }
   </script>
   <link rel="stylesheet" href="responsive-shell-20261031.css" />
-  <link rel="stylesheet" href="homepage-gallery-20261031.css?v=20261112-stable" />
+  <link rel="stylesheet" href="homepage-gallery-20261031.css?v=20261112-mobile" />
   <link rel="stylesheet" href="headers-compact-20261101.css?v=20261101-header1" />
   <link rel="stylesheet" href="footer-compact-20261101.css?v=20261101-footer1" />
+  <link rel="stylesheet" href="mobile-navigation-20261112.css?v=3" />
 </head>
-<body>
+<body class="home-page">
   <nav class="site-nav">
     <a class="brand" href="/"><img class="brand-logo" src="assets/junkernauts-logo.webp" alt="Junkernauts Junk Removal" width="260" height="86" style="max-width:48vw;object-fit:contain;display:block;" srcset="assets/junkernauts-logo-180.webp 180w, assets/junkernauts-logo-360.webp 360w, assets/junkernauts-logo.webp 900w" sizes="(max-width: 420px) 82px, (max-width: 680px) 88px, (max-width: 1000px) 106px, 152px" /></a>
     <div class="nav-shell">
@@ -432,11 +433,12 @@
         <p class="hero-sub">Junkernauts Junk Removal handles the lifting, loading, and hauling for homes, rentals, and businesses across Southeast Michigan. From one couch to a full garage cleanout, approve your price before we load.</p>
       </div>
 
-      <div class="home-job-gallery" role="group" aria-label="Real local jobs, before and after">
+      <p class="home-gallery-hint" id="home-gallery-hint">Real local jobs <span>Swipe to see more &rarr;</span></p>
+      <div class="home-job-gallery" role="region" aria-label="Real local jobs, before and after" tabindex="0">
         <article class="home-gallery-card" data-home-comparison aria-labelledby="gallery-novi-title">
           <div class="home-comparison-media">
-            <img data-home-photo="before" src="assets/novi-sectional-removal-before.webp" alt="Sectional couch in a Novi living room before furniture removal" width="1600" height="1200" fetchpriority="high" decoding="async" srcset="assets/novi-sectional-removal-before-800.webp 800w, assets/novi-sectional-removal-before.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" loading="eager" />
-            <img data-home-photo="after" src="assets/novi-sectional-removal-after.webp" alt="Novi living room after the sectional couch was removed" width="1600" height="1200" decoding="async" srcset="assets/novi-sectional-removal-after-800.webp 800w, assets/novi-sectional-removal-after.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" fetchpriority="low" />
+            <img data-home-photo="before" src="assets/novi-sectional-removal-before.webp" alt="Sectional couch in a Novi living room before furniture removal" width="1600" height="1200" fetchpriority="high" decoding="async" srcset="assets/novi-sectional-removal-before-800.webp 800w, assets/novi-sectional-removal-before.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" loading="eager" />
+            <img data-home-photo="after" src="assets/novi-sectional-removal-after.webp" alt="Novi living room after the sectional couch was removed" width="1600" height="1200" decoding="async" srcset="assets/novi-sectional-removal-after-800.webp 800w, assets/novi-sectional-removal-after.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" fetchpriority="low" />
             <span class="home-comparison-state" data-home-state>Before</span>
             <div class="home-comparison-nojs-labels" aria-hidden="true"><span>Before</span><span>After</span></div>
           </div>
@@ -456,8 +458,8 @@
         </article>
         <article class="home-gallery-card" data-home-comparison aria-labelledby="gallery-monroe-title">
           <div class="home-comparison-media">
-            <img data-home-photo="before" src="assets/monroe-decking-removal-before-800.webp" srcset="assets/monroe-decking-removal-before-800.webp 800w, assets/monroe-decking-removal-before.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" alt="Old deck boards piled beside a deck in Monroe, Michigan, before debris removal" width="1600" height="1200" decoding="async" fetchpriority="low" />
-            <img data-home-photo="after" src="assets/monroe-decking-removal-after-800.webp" srcset="assets/monroe-decking-removal-after-800.webp 800w, assets/monroe-decking-removal-after.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" alt="Monroe yard after the old decking pile was hauled away by Junkernauts Junk Removal" width="1600" height="1200" decoding="async" fetchpriority="low" />
+            <img data-home-photo="before" src="assets/monroe-decking-removal-before-800.webp" srcset="assets/monroe-decking-removal-before-800.webp 800w, assets/monroe-decking-removal-before.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" alt="Old deck boards piled beside a deck in Monroe, Michigan, before debris removal" width="1600" height="1200" decoding="async" fetchpriority="low" />
+            <img data-home-photo="after" src="assets/monroe-decking-removal-after-800.webp" srcset="assets/monroe-decking-removal-after-800.webp 800w, assets/monroe-decking-removal-after.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" alt="Monroe yard after the old decking pile was hauled away by Junkernauts Junk Removal" width="1600" height="1200" decoding="async" fetchpriority="low" />
             <span class="home-comparison-state" data-home-state>Before</span>
             <div class="home-comparison-nojs-labels" aria-hidden="true"><span>Before</span><span>After</span></div>
           </div>
@@ -477,8 +479,8 @@
         </article>
         <article class="home-gallery-card" data-home-comparison aria-labelledby="gallery-south-lyon-title">
           <div class="home-comparison-media">
-            <img data-home-photo="before" src="assets/south-lyon-shed-demolition-before-800.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" alt="Backyard shed in South Lyon before demolition" width="1600" height="1200" decoding="async" fetchpriority="low" />
-            <img data-home-photo="after" src="assets/south-lyon-shed-demolition-after-800.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 760px) 90vw, (max-width: 1240px) 30vw, 360px" alt="Cleared footprint after the South Lyon shed and demolition material were removed" width="1600" height="1200" decoding="async" fetchpriority="low" />
+            <img data-home-photo="before" src="assets/south-lyon-shed-demolition-before-800.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" alt="Backyard shed in South Lyon before demolition" width="1600" height="1200" decoding="async" fetchpriority="low" />
+            <img data-home-photo="after" src="assets/south-lyon-shed-demolition-after-800.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 530px) 79vw, (max-width: 760px) 420px, (max-width: 1240px) 30vw, 360px" alt="Cleared footprint after the South Lyon shed and demolition material were removed" width="1600" height="1200" decoding="async" fetchpriority="low" />
             <span class="home-comparison-state" data-home-state>Before</span>
             <div class="home-comparison-nojs-labels" aria-hidden="true"><span>Before</span><span>After</span></div>
           </div>
@@ -749,11 +751,11 @@
           </div>
           <div class="home-project-pair">
             <figure>
-              <img src="assets/novi-sectional-removal-before.webp" alt="Sectional couch in a Novi living room before furniture removal" width="1600" height="1200" loading="lazy" decoding="async" srcset="assets/novi-sectional-removal-before-800.webp 800w, assets/novi-sectional-removal-before.webp 1600w" sizes="(max-width: 760px) 44vw, 265px" />
+              <img src="assets/novi-sectional-removal-before.webp" alt="Sectional couch in a Novi living room before furniture removal" width="1600" height="1200" loading="lazy" decoding="async" srcset="assets/novi-sectional-removal-before-800.webp 800w, assets/novi-sectional-removal-before.webp 1600w" sizes="(max-width: 480px) 90vw, (max-width: 760px) 44vw, 265px" />
               <figcaption>Before</figcaption>
             </figure>
             <figure>
-              <img src="assets/novi-sectional-removal-after.webp" alt="Novi living room after the sectional couch was removed" width="1600" height="1200" loading="lazy" decoding="async" srcset="assets/novi-sectional-removal-after-800.webp 800w, assets/novi-sectional-removal-after.webp 1600w" sizes="(max-width: 760px) 44vw, 265px" />
+              <img src="assets/novi-sectional-removal-after.webp" alt="Novi living room after the sectional couch was removed" width="1600" height="1200" loading="lazy" decoding="async" srcset="assets/novi-sectional-removal-after-800.webp 800w, assets/novi-sectional-removal-after.webp 1600w" sizes="(max-width: 480px) 90vw, (max-width: 760px) 44vw, 265px" />
               <figcaption>After</figcaption>
             </figure>
           </div>
@@ -770,11 +772,11 @@
           </div>
           <div class="home-project-pair">
             <figure>
-              <img src="assets/south-lyon-shed-demolition-before.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 760px) 44vw, (max-width: 1280px) 22vw, 265px" alt="Backyard shed in South Lyon before demolition" width="1600" height="1200" loading="lazy" decoding="async" />
+              <img src="assets/south-lyon-shed-demolition-before.webp" srcset="assets/south-lyon-shed-demolition-before-800.webp 800w, assets/south-lyon-shed-demolition-before.webp 1600w" sizes="(max-width: 480px) 90vw, (max-width: 760px) 44vw, (max-width: 1280px) 22vw, 265px" alt="Backyard shed in South Lyon before demolition" width="1600" height="1200" loading="lazy" decoding="async" />
               <figcaption>Before</figcaption>
             </figure>
             <figure>
-              <img src="assets/south-lyon-shed-demolition-after.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 760px) 44vw, (max-width: 1280px) 22vw, 265px" alt="Cleared footprint after the South Lyon shed and demolition material were removed" width="1600" height="1200" loading="lazy" decoding="async" />
+              <img src="assets/south-lyon-shed-demolition-after.webp" srcset="assets/south-lyon-shed-demolition-after-800.webp 800w, assets/south-lyon-shed-demolition-after.webp 1600w" sizes="(max-width: 480px) 90vw, (max-width: 760px) 44vw, (max-width: 1280px) 22vw, 265px" alt="Cleared footprint after the South Lyon shed and demolition material were removed" width="1600" height="1200" loading="lazy" decoding="async" />
               <figcaption>After</figcaption>
             </figure>
           </div>
@@ -895,6 +897,7 @@
   </footer>
   <script src="reviews-carousel-20260723.js?v=20260912-seo"></script>
   <script src="script-20260713b-nav.js?v=20261112-intent"></script>
+  <script defer src="mobile-navigation-20261112.js?v=1"></script>
   <script defer src="homepage-gallery-20261031.js?v=20261031-gallery1"></script>
 </body>
 </html>

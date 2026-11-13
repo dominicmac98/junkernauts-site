@@ -325,3 +325,45 @@
   .home-gallery-hero .hero-paths { grid-template-columns: 1fr; gap: 26px; }
   .home-gallery-hero .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
 }
+
+/* Keep the same job cards on phones without placing three cards before the next section. */
+.home-gallery-hint { display: none; }
+.home-job-gallery:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 4px; }
+@media (max-width: 760px) {
+  .home-gallery-hero .hero-inner { display: flex; flex-direction: column; }
+  .home-gallery-hero .home-gallery-intro { display: contents; }
+  .home-gallery-hero .hero-copy { order: 0; margin-bottom: 18px; }
+  .home-gallery-hero .home-gallery-hint {
+    order: 1; display: flex; justify-content: space-between; gap: 12px;
+    margin: 0 0 10px; color: #c4d8e5; font-size: .78rem; line-height: 1.5;
+  }
+  .home-gallery-hint span { color: #7dd3fc; }
+  .home-gallery-hero .home-job-gallery {
+    order: 2; grid-template-columns: none; grid-auto-flow: column;
+    grid-auto-columns: min(88%, 420px); gap: 14px;
+    max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory; padding: 0 0 14px;
+    scrollbar-color: #7dd3fc #143044; scrollbar-width: thin;
+  }
+  .home-job-gallery .home-gallery-card { scroll-snap-align: start; }
+  .home-gallery-hero .hero-sub { order: 3; margin: 18px 0 0; }
+  .home-gallery-hero .hero-paths { order: 4; margin-top: 22px; gap: 18px; }
+  .home-gallery-hero .hero-support-links { order: 5; }
+  .home-gallery-hero .stats { order: 6; }
+  .home-gallery-card .home-gallery-card-copy { padding: 16px; }
+  .home-gallery-card .home-gallery-location { margin-bottom: 8px; }
+  .home-gallery-card h2 { font-size: 1.65rem; }
+  .home-gallery-card p { line-height: 1.5; margin-bottom: 14px; }
+  .home-gallery-card .home-comparison-autoplay { font-size: .75rem; }
+  .home-page > section { padding-block: 38px; }
+  .home-page .section-head { margin-bottom: 24px; }
+  .home-page .section-head .btn { margin-top: 16px; }
+  .home-page .home-project-grid { margin-top: 24px; }
+  .home-page .recent-cleanout-projects { margin-bottom: 30px; }
+  .home-page .home-project-links a,
+  .home-gallery-hero .hero-support-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .home-page .transfer-proof { gap: 30px; margin-top: 30px; padding-top: 30px; }
+}
+@media (max-width: 480px) {
+  .home-page .home-project-pair { grid-template-columns: minmax(0, 1fr); }
+}

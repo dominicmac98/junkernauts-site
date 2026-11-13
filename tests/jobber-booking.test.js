@@ -172,3 +172,18 @@ test("quote page contains only the new request form and no retired submit handle
   assert.match(html, /5115980/);
   assert.doesNotMatch(html, /data-quote-form|script-20260716-quote-confirmation|<form\b/);
 });
+
+test("both forms keep a usable direct link above a stalled embed, even without JavaScript", async () => {
+  for (const [page, formId] of [["quote", "5115980"], ["booking", "5115979"]]) {
+    const html = await readFile(new URL(`../public/${page}.html`, import.meta.url), "utf8");
+    const fallback = html.match(/<a\b[^>]*\bdata-jobber-direct\b[^>]*>[\s\S]*?<\/a>/g) || [];
+    assert.equal(fallback.length, 1, `${page}: one direct fallback link`);
+    assert.match(fallback[0], new RegExp(`href="https://clienthub\\.getjobber\\.com/hubs/84193bef-02ad-49cd-93e2-4c8bfc7f103c/public/requests/${formId}/embedded_new"`));
+    assert.match(fallback[0], /target="_blank"/);
+    assert.match(fallback[0], /rel="noopener"/);
+    assert.match(fallback[0], />Open (?:estimate|booking) form in a new tab<\/a>/);
+    const fallbackPosition = html.indexOf(fallback[0]);
+    assert.ok(html.indexOf("data-jobber-status") < fallbackPosition, `${page}: slow-load status can point to the link below`);
+    assert.ok(fallbackPosition < html.indexOf("data-jobber-form"), `${page}: the fallback must not be pushed below a tall, stalled iframe`);
+  }
+});

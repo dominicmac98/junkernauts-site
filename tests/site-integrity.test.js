@@ -223,7 +223,7 @@ for (const page of ["index.html", "service-areas.html", "construction-debris-rem
       assert.equal(imageAttributes(image).loading, "lazy");
       assert.match(image, /decoding="async"/);
       assert.equal(imageAttributes(image).sizes, page === "index.html"
-        ? "(max-width: 720px) 90vw, 50vw" : "(max-width: 1565px) 44vw, 708px",
+        ? "(max-width: 720px) 90vw, 50vw" : "(max-width: 480px) 90vw, (max-width: 1565px) 44vw, 708px",
       "responsive photo sizes match the service or location gallery layout");
       const label = image.includes("removal-before.webp") ? "before" : "after";
       assert.ok(image.includes(`srcset="assets/monroe-decking-removal-${label}-800.webp 800w, assets/monroe-decking-removal-${label}.webp 1600w"`));

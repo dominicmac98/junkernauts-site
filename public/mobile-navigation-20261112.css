@@ -1,0 +1,204 @@
+/* Progressive mobile navigation. Without the helper, existing links stay visible. */
+.mobile-menu-toggle { display: none; }
+
+@media (max-width: 680px) {
+  /* Clip decorative overflow without creating a scroll container that breaks sticky navigation. */
+  html, body { overflow-x: clip; }
+
+  body .site-nav.mobile-navigation-enhanced,
+  body .site-nav.mobile-navigation-enhanced.nav-compact {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 56px;
+    align-items: center;
+    justify-content: stretch;
+    gap: 0 8px;
+    height: auto;
+    min-height: 108px;
+    padding: 7px 4%;
+    transition: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .brand {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .brand-logo,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .brand-logo {
+    width: 64px !important;
+    height: 45px !important;
+    max-width: 100%;
+    transition: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-shell,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .nav-shell {
+    display: contents;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-actions,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-actions :is(.nav-phone-number, .nav-quote),
+  body .site-nav.mobile-navigation-enhanced.nav-compact .nav-actions :is(.nav-phone-number, .nav-quote) {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 6px;
+    font-size: .86rem;
+    line-height: 1.1;
+    transition: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .mobile-menu-toggle {
+    grid-column: 3;
+    grid-row: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    min-height: 44px;
+    padding: 8px 4px;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    font: 800 .86rem "DM Sans", sans-serif;
+    cursor: pointer;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .mobile-menu-toggle[aria-expanded="true"] {
+    background: #fff;
+    color: #004e8c;
+  }
+
+  body .site-nav.mobile-navigation-enhanced :is(a, button):focus-visible {
+    outline: 3px solid #7dd3fc;
+    outline-offset: 2px;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-links,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: none;
+    width: 100%;
+    min-width: 0;
+    max-height: calc(100vh - 122px);
+    max-height: calc(100dvh - 122px);
+    margin: 7px 0 0;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, .25);
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain;
+    gap: 0;
+    list-style: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced.mobile-menu-open .nav-links,
+  body .site-nav.mobile-navigation-enhanced.mobile-menu-open.nav-compact .nav-links {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-links > li > a,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .nav-links > li > a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: .95rem;
+    line-height: 1.25;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-dropdown { position: static; }
+
+  /* Only explicit accordion state opens a touch menu: hover/focus must not
+     keep it visible after its toggle reports aria-expanded=false. */
+  body .site-nav.mobile-navigation-enhanced .nav-dropdown .services-menu {
+    display: none !important;
+    position: static;
+    width: 100%;
+    max-height: none;
+    margin: 0 0 6px;
+    padding: 12px;
+    border-radius: 6px;
+    opacity: 1;
+    transform: none !important;
+    pointer-events: auto;
+    box-shadow: none;
+    transition: none;
+  }
+
+  body .site-nav.mobile-navigation-enhanced .nav-dropdown.is-open .services-menu { display: block !important; }
+  body .site-nav.mobile-navigation-enhanced .services-menu::before { display: none; }
+  body .site-nav.mobile-navigation-enhanced .services-menu-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  body .site-nav.mobile-navigation-enhanced .areas-menu .services-menu-grid > div { column-count: 1; }
+  body .site-nav.mobile-navigation-enhanced .services-menu a,
+  body .site-nav.mobile-navigation-enhanced.nav-compact .services-menu a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 8px;
+    font-size: .9rem;
+    line-height: 1.3;
+  }
+
+  body .site-footer .footer-links a { min-height: 44px; }
+
+  /* Keep every review selector reachable: compact visual dots have larger
+     tap areas and wrap between the two full-size arrow buttons. */
+  body .review-carousel.is-ready .review-carousel-controls {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+  }
+  body .review-carousel-button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+  body .review-carousel-button[data-review-previous] { grid-column: 1; grid-row: 1; }
+  body .review-carousel-button[data-review-next] { grid-column: 3; grid-row: 1; }
+  body .review-carousel.is-ready .review-dots {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    flex-wrap: wrap;
+    gap: 2px;
+    overflow: visible;
+  }
+  body .review-dot,
+  body .review-dot.is-active {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    border-radius: 0;
+    background: transparent;
+  }
+  body .review-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(189, 215, 237, .45);
+    transform: translate(-50%, -50%);
+  }
+  body .review-dot.is-active::before { width: 16px; border-radius: 5px; background: #7dd3fc; }
+}
