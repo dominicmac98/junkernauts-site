@@ -328,6 +328,7 @@
 
 /* Keep the same job cards on phones without placing three cards before the next section. */
 .home-gallery-hint { display: none; }
+body.home-page.night-mode .mini-contact { background-image: none; }
 .home-job-gallery:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 4px; }
 @media (max-width: 760px) {
   .home-gallery-hero .hero-inner { display: flex; flex-direction: column; }
