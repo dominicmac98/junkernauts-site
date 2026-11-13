@@ -2,21 +2,25 @@
   function initializeMobileNavigation() {
     const nav = document.querySelector('.site-nav');
     const links = nav?.querySelector('.nav-links');
+    const actions = nav?.querySelector('.nav-actions');
     if (!nav || !links || nav.dataset.mobileNavigationReady || !window.matchMedia) return;
 
     const mobile = window.matchMedia('(max-width: 680px)');
     const button = document.createElement('button');
-    let linksId = links.id;
-    if (!linksId) {
-      linksId = 'site-navigation-links';
+    const ensureId = (element, preferred) => {
+      if (element.id) return element.id;
+      let id = preferred;
       let suffix = 2;
-      while (document.getElementById(linksId)) linksId = `site-navigation-links-${suffix++}`;
-      links.id = linksId;
-    }
+      while (document.getElementById(id)) id = `${preferred}-${suffix++}`;
+      element.id = id;
+      return id;
+    };
+    const controlledIds = [ensureId(links, 'site-navigation-links')];
+    if (actions) controlledIds.push(ensureId(actions, 'site-navigation-actions'));
     button.type = 'button';
     button.className = 'mobile-menu-toggle';
     button.textContent = 'Menu';
-    button.setAttribute('aria-controls', linksId);
+    button.setAttribute('aria-controls', controlledIds.join(' '));
     button.setAttribute('aria-expanded', 'false');
 
     const closeDropdowns = () => {

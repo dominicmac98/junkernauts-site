@@ -42,7 +42,7 @@ function setup({ mobile = true, missingNav = false, missingLinks = false, loadin
   const dropdowns = [element('nav-dropdown'), element('nav-dropdown')];
   const toggles = dropdowns.map(() => element('nav-dropdown-toggle'));
   dropdowns.forEach((dropdown, index) => { dropdown.querySelector = () => toggles[index]; });
-  nav.querySelector = selector => selector === '.nav-links' && !missingLinks ? links : null;
+  nav.querySelector = selector => selector === '.nav-actions' ? actions : selector === '.nav-links' && !missingLinks ? links : null;
   nav.querySelectorAll = selector => selector === '.nav-dropdown' ? dropdowns : [];
   nav.contains = target => target === nav || target === links || target === actions || shell.children.includes(target);
   const created = [];
@@ -69,7 +69,7 @@ test('enhancement adds one labelled disclosure before the original links without
   assert.equal(button.textContent, 'Menu');
   assert.equal(button.type, 'button');
   assert.equal(button.getAttribute('aria-expanded'), 'false');
-  assert.equal(button.getAttribute('aria-controls'), page.links.id);
+  assert.equal(button.getAttribute('aria-controls'), `${page.links.id} ${page.actions.id}`);
   assert.deepEqual(page.shell.children, [button, page.links, page.actions]);
   assert.ok(page.nav.classList.contains('mobile-navigation-enhanced'));
   assert.ok(!page.nav.classList.contains('mobile-menu-open'));
@@ -139,7 +139,7 @@ test('desktop resizing resets open state, and desktop clicks cannot open the mob
 });
 
 test('initialization preserves existing IDs, avoids collisions, and leaves unsupported or missing navigation untouched', () => {
-  assert.equal(setup({ existingId: 'primary-links' }).created[0].getAttribute('aria-controls'), 'primary-links');
+  assert.equal(setup({ existingId: 'primary-links' }).created[0].getAttribute('aria-controls'), 'primary-links site-navigation-actions');
   assert.equal(setup({ idCollision: true }).links.id, 'site-navigation-links-2');
   for (const options of [{ missingNav: true }, { missingLinks: true }, { mediaAvailable: false }]) {
     const page = setup(options);
@@ -157,7 +157,7 @@ test('mobile styling retains the fallback, reserves touch targets, and explicitl
   assert.match(css, /@media \(max-width: 680px\)/);
   assert.doesNotMatch(css, /@media \(min-width:/);
   assert.match(css, /min-height: 44px/);
-  assert.match(css, /max-height: calc\(100dvh - 122px\)/);
+  assert.match(css, /max-height: calc\(100dvh - 170px\)/);
   assert.match(css, /\.mobile-navigation-enhanced\.nav-compact \.nav-links[\s\S]*?display: none;/);
   assert.match(css, /\.mobile-navigation-enhanced\.mobile-menu-open\.nav-compact \.nav-links[\s\S]*?display: grid;/);
   assert.match(css, /\.mobile-navigation-enhanced \.nav-dropdown \.services-menu \{\s*display: none !important;/);
